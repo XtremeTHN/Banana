@@ -21,11 +21,8 @@ template $HomePage: Adw.Bin {
           }
         }
 
-        // Gtk.Separator {
-        //   orientation: horizontal;
-        // }
-
         Adw.Clamp {
+          maximum-size: 800;
           child: Gtk.FlowBox mods {
             hexpand: false;
             valign: end;
@@ -33,7 +30,7 @@ template $HomePage: Adw.Bin {
             margin-start: 20;
             margin-end: 20;
             min-children-per-line: 3;
-            max-children-per-line: 3;
+            max-children-per-line: 9;
             row-spacing: 10;
             column-spacing: 5;
           };
