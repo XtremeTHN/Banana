@@ -4,8 +4,8 @@ using Adw 1;
 template $BananaWindow : Adw.ApplicationWindow {
   width-request: 800;
   height-request: 1000;
-  content: Adw.NavigationView nav_view {
-    Adw.NavigationPage {
+  content: $Navigation nav_view {
+    page: Adw.NavigationPage {
       title: "Banana";
 
       child: Adw.ToolbarView {
@@ -45,6 +45,6 @@ template $BananaWindow : Adw.ApplicationWindow {
           }
         };
       };
-    }
+    };
   };
 }

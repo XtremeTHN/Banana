@@ -1,5 +1,6 @@
 blueprints = custom_target('blueprints',
   input: files(
+    'navigation.blp',
     'mod-button.blp',
     'top-mod.blp',
     'window.blp',
@@ -7,7 +8,8 @@ blueprints = custom_target('blueprints',
     'search-page.blp',
     'mod-page.blp',
     'home-page.blp',
-    'sidebar-mod.blp'
+    'sidebar-mod.blp',
+    'screenshot.blp'
   ),
   output: '.',
   command: [find_program('blueprint-compiler'), 'batch-compile', '@OUTPUT@', '@CURRENT_SOURCE_DIR@', '@INPUT@'],

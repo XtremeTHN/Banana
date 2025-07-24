@@ -4,6 +4,28 @@ from typing import TypedDict, Literal
 SortType = Literal["new", "default", "updated"]
 
 
+class PagedRespondeMetadata(TypedDict):
+    _nRecordCount: int
+    _nPerpage: int
+    _bIsComplete: bool
+
+
+class UpdateChanges(TypedDict):
+    text: str
+    cat: str
+
+
+class Update(TypedDict):
+    _sName: str
+    _sText: str
+    _aChangeLog: list[UpdateChanges]
+
+
+class UpdatesResponse(TypedDict):
+    _aMetadata: PagedRespondeMetadata
+    _aRecords: list[Update]
+
+
 class Submitter(TypedDict):
     _sName: str
     _sAvatarUrl: str
@@ -55,7 +77,15 @@ class SubmissionInfoLicenseCheckList(TypedDict):
 
 
 class SubmissionInfoCredits(TypedDict):
-    key_authors: list[list[str]]
+    _sRole: str
+    _sName: str
+    # TODO: maybe add the author pfp
+
+
+class SubmissionInfoCreditsType(TypedDict):
+    _sGroupName: str
+    _aAuthors: list[SubmissionInfoCredits]
+    # key_authors: list[list[str]]
 
 
 class SubmissionInfoFileSource(TypedDict):
@@ -92,7 +122,7 @@ class SubmissionInfo(TypedDict):
     _sLicense: str
     _aLicenseChecklist: SubmissionInfoLicenseCheckList
 
-    _aCredits: SubmissionInfoCredits
+    _aCredits: list[SubmissionInfoCreditsType]
     _aAlternateFileSources: list[SubmissionInfoAltFileSource]
 
     _aSubmitter: SubmissionInfoSubmitter

@@ -1,12 +1,30 @@
-from ..modules.gamebanana.types import Submission, SubmissionInfo
+from ..modules.gamebanana.types import Submission, SubmissionInfo, Update
+from ..modules.gamebanana import Gamebanana, get_sync
 from ..modules.cache import cache_download
-from ..modules.utils import Blueprint
+from ..modules.utils import Blueprint, idle
+
+from .nav import Navigation
+from .screenshot import Screenshot
 from gi.repository import Gtk, Adw, Gio, Gdk, GLib
 
+import re
 
-# idle = GLib.idle_add
-def idle(func, *args):
-    return GLib.idle_add(func, *args)
+
+def html_to_pango(html: str) -> str:
+    # Replace <br> and <p> with newlines
+    html = re.sub(r"<br\s*/?>", "\n", html)
+    html = re.sub(r"</p>", "\n", html)
+    html = re.sub(r"<p>", "", html)
+
+    # Replace <b>, <i>, <u>
+    # html = re.sub(r"<b>(.*?)</b>", r"<b>\1</b>", html)
+    # html = re.sub(r"<i>(.*?)</i>", r"<i>\1</i>", html)
+    # html = re.sub(r"<u>(.*?)</u>", r"<u>\1</u>", html)
+
+    # Remove all other tags (or handle as needed)
+    html = re.sub(r"<.*?>", "", html)
+
+    return html.replace("&nbsp;", "")
 
 
 def get_formatted_period(period: str):
@@ -88,6 +106,8 @@ class ModButton(Gtk.Button):
 
     def __init__(self, submission: SubmissionInfo):
         super().__init__()
+        self.mod_id = submission["_idRow"]
+
         preview = submission["_aPreviewMedia"]
         if preview.get("_aImages") is not None:
             if len((n := submission["_aPreviewMedia"]["_aImages"])) != 0:
@@ -97,5 +117,104 @@ class ModButton(Gtk.Button):
 
         self.mod_name.set_label(submission["_sName"])
 
+    @Gtk.Template.Callback()
+    def on_clicked(self, btt):
+        page = ModPage(self.mod_id)
+        Navigation.get_default().nav_view.push(page)
+
     def __on_down_finish(self, cover):
         GLib.idle_add(self.mod_cover.set_filename, cover)
+
+
+@Blueprint("mod-page")
+class ModPage(Adw.NavigationPage):
+    __gtype_name__ = "ModPage"
+
+    mod_icon: Gtk.Picture = Gtk.Template.Child()
+    mod_title: Gtk.Label = Gtk.Template.Child()
+    mod_caption: Gtk.Label = Gtk.Template.Child()
+    mod_description: Gtk.Label = Gtk.Template.Child()
+
+    stack: Gtk.Stack = Gtk.Template.Child()
+    screenshots_carousel: Adw.Carousel = Gtk.Template.Child()
+    credits_box: Gtk.ListBox = Gtk.Template.Child()
+    updates_box: Gtk.ListBox = Gtk.Template.Child()
+
+    likes: Gtk.Label = Gtk.Template.Child()
+    downloads: Gtk.Label = Gtk.Template.Child()
+    views: Gtk.Label = Gtk.Template.Child()
+
+    loading_status: Adw.StatusPage = Gtk.Template.Child()
+
+    def __init__(self, mod_id):
+        super().__init__(title="Mod")
+
+        spinner = Adw.SpinnerPaintable.new()
+        self.loading_status.set_paintable(spinner)
+        spinner.set_widget(self.loading_status)
+
+        self.mod_id = mod_id
+
+        # TODO: if this converts into a gamebanana general client, change this to the type of the submission id
+        Gamebanana.get_submission_info("Mod", mod_id, self.populate)
+
+    def populate(self, submission: SubmissionInfo):
+        def finish(cover, *images):
+            print(cover)
+            idle(self.mod_icon.set_filename, cover)
+
+            for img in images:
+                s = Screenshot()
+                idle(s.pic.set_filename, img)
+                idle(self.screenshots_carousel.append, s)
+
+            idle(self.mod_title.set_label, submission["_sName"])
+            idle(self.mod_caption.set_label, submission["_aSubmitter"]["_sName"])
+
+            idle(self.likes.set_label, f"{submission['_nLikeCount']:,}")
+            idle(self.views.set_label, f"{submission['_nViewCount']:,}")
+            idle(self.downloads.set_label, f"{submission['_nDownloadCount']:,}")
+
+            idle(self.mod_description.set_label, html_to_pango(submission["_sText"]))
+
+            updates = Gamebanana.get_submission_updates("Mod", self.mod_id)
+
+            # TODO: refactor this, it looks ugly
+            for records in updates:
+                if len(records) == 0:
+                    self.updates_box.append(Adw.ActionRow(title="No updates"))
+                    break
+
+                for update in records:
+                    exp = Adw.ExpanderRow(
+                        title=update["_sName"], subtitle=update["_sText"]
+                    )
+                    if (n := update.get("_aChangeLog")) is not None:
+                        for change in n:
+                            txt = change["text"].replace("<p>", "").replace("</p>", "")
+                            exp.add_row(
+                                Adw.ActionRow(
+                                    css_classes=["property"],
+                                    title=change["cat"],
+                                    subtitle=txt,
+                                )
+                            )
+                    idle(self.updates_box.append, exp)
+
+            if len((credits := submission["_aCredits"])) > 0:
+                for _type in credits:
+                    exp = Adw.ExpanderRow(title=_type["_sGroupName"])
+                    for author in _type["_aAuthors"]:
+                        exp.add_row(
+                            Adw.ActionRow(
+                                css_classes=["property"],
+                                title=author["_sRole"],
+                                subtitle=author["_sName"],
+                            )
+                        )
+                    idle(self.credits_box.append, exp)
+
+            self.stack.set_visible_child_name("main")
+
+        if (n := submission["_aPreviewMedia"].get("_aImages")) is not None:
+            cache_download(*[f"{x['_sBaseUrl']}/{x['_sFile']}" for x in n], cb=finish)

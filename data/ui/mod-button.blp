@@ -5,6 +5,8 @@ template $ModButton : Button {
   styles ["flat"]
   hexpand: false;
   halign: center;
+
+  clicked => $on_clicked();
   child: Adw.Clamp {
     // maximum-size: 100;
     child: Box {

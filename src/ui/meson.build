@@ -5,7 +5,9 @@ modules_sources = [
     'home.py',
     'search.py',
     'mod.py',
-    'window.py'
+    'window.py',
+    'screenshot.py',
+    'nav.py'
 ]
 
 install_data(modules_sources, install_dir: moduledir)

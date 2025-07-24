@@ -22,7 +22,6 @@ def cache_download(*urls, cb=None) -> str:
                 with open(path, "wb") as f:
                     f.write(r.content)
                     f.close()
-
             files.append(path)
 
         cb(*files)
