@@ -160,7 +160,6 @@ class ModPage(Adw.NavigationPage):
 
     def populate(self, submission: SubmissionInfo):
         def finish(cover, *images):
-            print(cover)
             idle(self.mod_icon.set_filename, cover)
 
             for img in images:
@@ -218,7 +217,7 @@ class ModPage(Adw.NavigationPage):
                         )
                     idle(self.credits_box.append, exp)
 
-            self.stack.set_visible_child_name("main")
+            idle(self.stack.set_visible_child_name, "main")
 
         if (n := submission["_aPreviewMedia"].get("_aImages")) is not None:
             cache_download(*[f"{x['_sBaseUrl']}/{x['_sFile']}" for x in n], cb=finish)
