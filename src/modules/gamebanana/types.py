@@ -83,6 +83,7 @@ class SubmissionInfoSubmitter(TypedDict):
 class SubmissionInfo(TypedDict):
     _idRow: int
     _sName: str
+    _sText: str
     _aPreviewMedia: aIm
     _nDownloadCount: int
     _nViewCount: int
