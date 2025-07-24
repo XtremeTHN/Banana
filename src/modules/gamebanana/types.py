@@ -11,6 +11,10 @@ class PagedRespondeMetadata(TypedDict):
     _bIsComplete: bool
 
 
+class PagedResponse(TypedDict):
+    _aMetadata: PagedRespondeMetadata
+
+
 class UpdateChanges(TypedDict):
     text: str
     cat: str
@@ -22,8 +26,7 @@ class Update(TypedDict):
     _aChangeLog: list[UpdateChanges]
 
 
-class UpdatesResponse(TypedDict):
-    _aMetadata: PagedRespondeMetadata
+class UpdatesResponse(PagedResponse):
     _aRecords: list[Update]
 
 
