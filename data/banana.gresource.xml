@@ -13,6 +13,7 @@
     </gresource>
 
     <gresource prefix="/com/github/XtremeTHN/Banana/icons/">
+        <file preprocess="xml-stripblanks" alias="loupe-large-symbolic.svg">icons/loupe-large-symbolic.svg</file>
         <file preprocess="xml-stripblanks" alias="heart-symbolic.svg">icons/heart-symbolic.svg</file>
         <file preprocess="xml-stripblanks" alias="download-symbolic.svg">icons/download-symbolic.svg</file>
         <file preprocess="xml-stripblanks" alias="eye-symbolic.svg">icons/eye-symbolic.svg</file>

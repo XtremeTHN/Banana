@@ -3,13 +3,13 @@ using Adw 1;
 
 template $TopMod: Overlay {
   styles ["card", "box-10"]
-  Frame {
+  child: Frame {
     child: Picture mod_preview {
-      content-fit: fill;
-      keep-aspect-ratio: false;
+      // styles ["top-mod-cover"]
       height-request: 250;
+      content-fit: cover;
     };
-  }
+  };
 
   [overlay]
   Button download_btt {

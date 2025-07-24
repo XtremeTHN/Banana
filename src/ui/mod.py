@@ -1,6 +1,12 @@
 from ..modules.gamebanana.types import Submission, SubmissionInfo
+from ..modules.cache import temp_download
 from ..modules.utils import Blueprint
 from gi.repository import Gtk, Adw, Gio, Gdk, GLib
+
+
+# idle = GLib.idle_add
+def idle(func, *args):
+    return GLib.idle_add(func, *args)
 
 
 def get_formatted_period(period: str):
@@ -52,23 +58,24 @@ class TopMod(Gtk.Overlay):
 
     def populate(self, submission: Submission):
         submitter = submission["_aSubmitter"]
-        cover = Gio.File.new_for_uri(submission["_sImageUrl"])
-        submitter_pfp = Gio.File.new_for_uri(submitter["_sAvatarUrl"])
-        sub_pfp = Gdk.Texture.new_from_file(submitter_pfp)
 
-        self.mod_preview.set_file(cover)
-        self.mod_submitter.set_from_paintable(sub_pfp)
-        self.mod_submitter.set_tooltip_text(submitter["_sName"])
+        def on_finish(cover, sub_pfp):
+            idle(self.mod_preview.set_filename, cover)
+            idle(self.mod_submitter.set_from_file, sub_pfp)
+            idle(self.mod_submitter.set_tooltip_text, submitter["_sName"])
 
-        self.mod_feature_type.set_label(
-            f"Best of {get_formatted_period(submission['_sPeriod'])}"
-        )
-        self.mod_name.set_label(submission["_sName"])
+            idle(
+                self.mod_feature_type.set_label,
+                f"Best of {get_formatted_period(submission['_sPeriod'])}",
+            )
+            idle(self.mod_name.set_label, submission["_sName"])
 
-        if (n := submission.get("_sDescription", "")) != "":
-            self.mod_caption.set_label(n)
-        else:
-            self.mod_caption.set_visible(False)
+            if (n := submission.get("_sDescription", "")) != "":
+                idle(self.mod_caption.set_label, n)
+            else:
+                idle(self.mod_caption.set_visible, False)
+
+        temp_download(submission["_sImageUrl"], submitter["_sAvatarUrl"], cb=on_finish)
 
 
 @Blueprint("mod-button")
@@ -81,13 +88,14 @@ class ModButton(Gtk.Button):
 
     def __init__(self, submission: SubmissionInfo):
         super().__init__()
-
-        if len((n := submission["_aPreviewMedia"]["_aImages"])) != 0:
-            img = n[0]
-            cover = Gio.File.new_for_uri(img["_sBaseUrl"] + "/" + img["_sFile"])
-            GLib.idle_add(self.mod_cover.set_file, cover)
-            # paintable = Gdk.Texture.new_from_file(cover)
-
-            # self.mod_cover.set_from_paintable(paintable)
+        preview = submission["_aPreviewMedia"]
+        if preview.get("_aImages") is not None:
+            if len((n := submission["_aPreviewMedia"]["_aImages"])) != 0:
+                temp_download(
+                    n[0]["_sBaseUrl"] + "/" + n[0]["_sFile"], cb=self.__on_down_finish
+                )
 
         self.mod_name.set_label(submission["_sName"])
+
+    def __on_down_finish(self, cover):
+        GLib.idle_add(self.mod_cover.set_filename, cover)

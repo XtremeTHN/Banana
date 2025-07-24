@@ -18,8 +18,8 @@ class HomePage(Adw.Bin):
         self.auto_scroll_running = True
         self.last_mod = None
 
-        Gamebanana.get_top_submissions(self.populate_carousel)
         Gamebanana.get_featured_submissions(self.populate)
+        Gamebanana.get_top_submissions(self.populate_carousel)
 
         self.start_auto_scroll()  # TODO: make this configurable
 

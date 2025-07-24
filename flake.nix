@@ -22,6 +22,7 @@
       gtk4
       libadwaita
       gobject-introspection
+      wrapGAppsHook
     ];
   in {
     devShells.${system}.default = pkgs.mkShell {

@@ -4,41 +4,40 @@ using Adw 1;
 template $HomePage: Adw.Bin {
   child: ScrolledWindow {
     vexpand: true;
-    hscrollbar-policy: never;
-    child: Adw.Clamp {
-      maximum-size: 700;
-      child: Box {
+    child: Box {
         orientation: vertical;
         spacing: 20;
         Box {
           orientation: vertical;
+          vexpand: true;
           spacing: 5;
-          Adw.Clamp {
-            orientation: vertical;
-            maximum-size: 300;
-            child: Adw.Carousel mod_carousel {
-              spacing: 10;
-            };
+          Adw.Carousel mod_carousel {
+            styles ["box-10"]
+            vexpand: true;
+            spacing: 10;
           }
           Adw.CarouselIndicatorDots {
             carousel: mod_carousel;
           }
         }
 
-        Gtk.Separator {
-          orientation: horizontal;
-        }
-        Gtk.FlowBox mods {
-          hexpand: false;
+        // Gtk.Separator {
+        //   orientation: horizontal;
+        // }
 
-          margin-start: 20;
-          margin-end: 20;
-          min-children-per-line: 3;
-          max-children-per-line: 3;
-          row-spacing: 10;
-          column-spacing: 5;
+        Adw.Clamp {
+          child: Gtk.FlowBox mods {
+            hexpand: false;
+            valign: end;
+
+            margin-start: 20;
+            margin-end: 20;
+            min-children-per-line: 3;
+            max-children-per-line: 3;
+            row-spacing: 10;
+            column-spacing: 5;
+          };
         }
       };
-    };
   };
 }

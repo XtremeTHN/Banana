@@ -8,21 +8,25 @@ FNF_GAME_ID = "8694"
 GB_API = "https://gamebanana.com/apiv11"
 
 
-def get(url, cb):
-    Thread(lambda: cb(requests.get(url).json())).start()
+def get(url, cb, *args):
+    Thread(lambda: cb(requests.get(url).json(), *args)).start()
 
 
 class Gamebanana:
     @staticmethod
     def query_submissions(
         query: str,
-        cb: Callable[[list[QuerySubmission]], None],
+        cb: Callable[[dict, int], None],
         sort: SortType = "new",
-        pages=1,
+        page=1,
     ):
+        """
+        It wil return a dictionary with a key (_aRecords) holding all the results.
+        """
         get(
-            f"{GB_API}/Game/{FNF_GAME_ID}/Subfeed?_nPage={pages}&_sSort={sort}&_sName={query}",
+            f"{GB_API}/Game/{FNF_GAME_ID}/Subfeed?_nPage={page}&_sSort={sort}&_sName={query}",
             cb,
+            page,
         )
 
     @staticmethod

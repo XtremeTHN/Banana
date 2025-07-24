@@ -2,8 +2,8 @@ using Gtk 4.0;
 using Adw 1;
 
 template $BananaWindow : Adw.ApplicationWindow {
-  width-request: 600;
-  height-request: 900;
+  width-request: 800;
+  height-request: 1000;
   content: Adw.NavigationView nav_view {
     Adw.NavigationPage {
       title: "Banana";
@@ -20,25 +20,27 @@ template $BananaWindow : Adw.ApplicationWindow {
         content: Box {
           orientation: vertical;
           SearchBar search_bar {
-            child: Gtk.SearchEntry {
+            child: Gtk.SearchEntry search_entry {
+              search-delay: 800;
               placeholder-text: _("Search mods");
               search-changed => $on_search_changed();
             };
           }
 
-          Stack {
-            styles ["box-10"]
+          Stack stack {
             StackPage {
               title: _("Banana");
               name: "home";
 
-              child: $HomePage {};
+              child: $HomePage home_page {};
             }
             StackPage {
               title: _("Search");
               name: "home-search";
 
-              child: $SearchPage {};
+              child: $SearchPage search_page {
+                search-entry: search_entry;
+              };
             }
           }
         };

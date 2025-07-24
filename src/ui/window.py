@@ -11,8 +11,12 @@ from gi.repository import Gtk, Adw
 class BananaWindow(Adw.ApplicationWindow):
     __gtype_name__ = "BananaWindow"
 
+    stack: Gtk.Stack = Gtk.Template.Child()
     search_bar: Gtk.SearchBar = Gtk.Template.Child()
     nav_view: Adw.NavigationView = Gtk.Template.Child()
+
+    home_page: HomePage = Gtk.Template.Child()
+    search_page: SearchPage = Gtk.Template.Child()
 
     def __init__(self, app):
         super().__init__(application=app)
@@ -21,7 +25,12 @@ class BananaWindow(Adw.ApplicationWindow):
         self.present()
 
     @Gtk.Template.Callback()
-    def on_search_changed(self, entry): ...
+    def on_search_changed(self, entry: Gtk.SearchEntry):
+        if entry.get_text() == "":
+            self.stack.set_visible_child_name("home")
+            return
+
+        self.stack.set_visible_child_name("home-search")
 
     @Gtk.Template.Callback()
     def on_serch_btt_clicked(self, btt):

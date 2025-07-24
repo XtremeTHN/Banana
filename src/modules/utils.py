@@ -1,5 +1,9 @@
 import threading as t
-from gi.repository import Gtk
+from gi.repository import Gtk, GLib
+
+
+def idle(func, *args):
+    return GLib.idle_add(func, *args)
 
 
 class Blueprint(Gtk.Template):
