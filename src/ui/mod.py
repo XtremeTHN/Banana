@@ -1,5 +1,5 @@
 from ..modules.gamebanana.types import Submission, SubmissionInfo
-from ..modules.cache import temp_download
+from ..modules.cache import cache_download
 from ..modules.utils import Blueprint
 from gi.repository import Gtk, Adw, Gio, Gdk, GLib
 
@@ -75,7 +75,7 @@ class TopMod(Gtk.Overlay):
             else:
                 idle(self.mod_caption.set_visible, False)
 
-        temp_download(submission["_sImageUrl"], submitter["_sAvatarUrl"], cb=on_finish)
+        cache_download(submission["_sImageUrl"], submitter["_sAvatarUrl"], cb=on_finish)
 
 
 @Blueprint("mod-button")
@@ -91,7 +91,7 @@ class ModButton(Gtk.Button):
         preview = submission["_aPreviewMedia"]
         if preview.get("_aImages") is not None:
             if len((n := submission["_aPreviewMedia"]["_aImages"])) != 0:
-                temp_download(
+                cache_download(
                     n[0]["_sBaseUrl"] + "/" + n[0]["_sFile"], cb=self.__on_down_finish
                 )
 

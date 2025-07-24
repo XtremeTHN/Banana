@@ -8,7 +8,7 @@ CACHE = GLib.get_user_cache_dir() + "/banana"
 os.makedirs(CACHE, exist_ok=True)
 
 
-def temp_download(*urls, cb=None) -> str:
+def cache_download(*urls, cb=None) -> str:
     def f():
         files = []
         for url in urls:
