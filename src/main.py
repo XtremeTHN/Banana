@@ -1,4 +1,7 @@
 import gi
+from rich.traceback import install
+
+install(show_locals=True)
 
 gi.require_versions({"Adw": "1", "Gtk": "4.0"})
 

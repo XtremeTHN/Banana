@@ -1,7 +1,8 @@
-from typing import TypedDict, Literal
+from typing import TypedDict, Literal, Optional
 
 
 SortType = Literal["new", "default", "updated"]
+SubmissionType = Literal["Mod", "Tool", "Wip"]
 
 
 class PagedRespondeMetadata(TypedDict):
@@ -40,7 +41,7 @@ class Submission(TypedDict):
     _sPeriod: str
     _aSubmitter: Submitter
 
-    _sModelName: str
+    _sModelName: SubmissionType
 
 
 class PreviewImage(TypedDict):
@@ -59,7 +60,7 @@ class SubmissionStudio(TypedDict):
 
 class QuerySubmission(TypedDict):
     _idRow: int
-    _sModelName: str
+    _sModelName: SubmissionType
     _sName: str
     _aPreviewMedia: aIm
 
@@ -103,21 +104,39 @@ class SubmissionInfoAltFileSource(TypedDict):
     description: str
 
 
-class SubmissionInfoSubmitter(TypedDict):
+class GenericProfile(TypedDict):
     _idRow: int
     _sName: str
-    _sUserTitle: str
+    _sUserTitle: Optional[str]
     _sAvatarUrl: str
+
+
+class SubmissionInfoCategory(TypedDict):
+    _idRow: int
+    _sName: str
+    _sModelName: str
+    _sIconUrl: str
+
+
+class SubmissionInfoTrash(TypedDict):
+    _aTrasher: GenericProfile
+    _sReason: str
 
 
 class SubmissionInfo(TypedDict):
     _idRow: int
     _sName: str
     _sText: str
+    _sModelName: SubmissionType
     _aPreviewMedia: aIm
     _nDownloadCount: int
     _nViewCount: int
     _nLikeCount: int
+
+    _bIsTrashed: bool
+    _aTrashInfo: SubmissionInfoTrash
+
+    _aCategory: SubmissionInfoCategory
 
     _sLicense: str
     _aLicenseChecklist: SubmissionInfoLicenseCheckList
@@ -125,5 +144,22 @@ class SubmissionInfo(TypedDict):
     _aCredits: list[SubmissionInfoCreditsType]
     _aAlternateFileSources: list[SubmissionInfoAltFileSource]
 
-    _aSubmitter: SubmissionInfoSubmitter
+    _aSubmitter: GenericProfile
     _aFiles: list[SubmissionInfoFileSource]
+
+
+SubmissionWipCredits = TypedDict(
+    "SubmissionWipCredits",
+    {
+        "Key Authors": list,
+        "Original Authors": list,
+        "Contributors": list,
+        "Special Thanks": list,
+    },
+)
+
+
+class SubmissionWip(SubmissionInfo):
+    _sDevelopmentState: str
+    _iCompletionPercentage: int
+    _aCredits: SubmissionWipCredits

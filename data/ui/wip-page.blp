@@ -1,7 +1,7 @@
 using Gtk 4.0;
 using Adw 1;
 
-template $ModPage : Adw.NavigationPage {
+template $WipPage : Adw.NavigationPage {
   title: "";
   child: Adw.ToolbarView {
     [top]
@@ -16,7 +16,7 @@ template $ModPage : Adw.NavigationPage {
         name: "loading";
         child: Adw.StatusPage loading_status {
           title: _("Loading");
-          description: _("Loading mod information...");
+          description: _("Loading wip information...");
         };
       }
 
@@ -27,7 +27,7 @@ template $ModPage : Adw.NavigationPage {
           icon-name: "user-trash-symbolic";
         };
       }
-      
+
       StackPage {
         name: "main";
         child: ScrolledWindow {
@@ -50,7 +50,7 @@ template $ModPage : Adw.NavigationPage {
                     height-request: 200;
 
                     [overlay]
-                    Picture mod_icon {
+                    Picture wip_icon {
                       content-fit: cover;
                     }
                   };
@@ -65,13 +65,13 @@ template $ModPage : Adw.NavigationPage {
                   Box {
                     orientation: vertical;
 
-                    Label mod_title {
+                    Label wip_title {
                       styles ["title-1"]
                       xalign: 0;
                       wrap: true;
                     }
 
-                    Label mod_caption {
+                    Label wip_caption {
                       styles ["caption"]
                       xalign: 0;
                       opacity: 0.8;
@@ -103,33 +103,28 @@ template $ModPage : Adw.NavigationPage {
                         styles ["caption"]
                       }
                     }
-                    Box {
-                      styles ["card", "mod-data"]
-                      spacing: 5;
-
-                      Image {
-                        pixel-size: 12;
-                        icon-name: "download-symbolic";
-                      }
-                      Label downloads {
-                        styles ["caption"]
-                      }
-                    }
                   }
 
-                  Button {
-                    styles ["pill", "suggested-action"]
-                    halign: start;
-
-                    child: Adw.ButtonContent {
-                      icon-name: "download-symbolic";
-                      label: "Download";
-                    };
+                  Label {
+                    halign: center;
+                    valign: end;
+                    label: "Work in progress";
                   }
                 }
               }
 
-              Label mod_description {
+              Box {
+                spacing: 2;
+                orientation: vertical;
+
+                Label completed_label {
+                    halign: center;
+                    xalign: 1;
+                }
+                LevelBar completed {}
+              }
+
+              Label wip_description {
                 styles ["card", "box-10"]
                 xalign: 0;
                 wrap: true;
@@ -156,6 +151,11 @@ template $ModPage : Adw.NavigationPage {
                   styles ["boxed-list"]
                   selection-mode: none;
                 }
+              }
+
+              Box {
+                orientation: vertical;
+                spacing: 10;
 
                 Label {
                   styles ["title-4"]

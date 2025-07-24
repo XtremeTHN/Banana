@@ -5,6 +5,7 @@
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
     python = (pkgs.python313.withPackages (ps: with ps; [
+      rich
       requests
       pygobject3
       pygobject-stubs
