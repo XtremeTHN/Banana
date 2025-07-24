@@ -1,5 +1,5 @@
-from ..modules.gamebanana.types import Submission, SubmissionInfo, Update
-from ..modules.gamebanana import Gamebanana, get_sync
+from ..modules.gamebanana.types import Submission, SubmissionInfo
+from ..modules.gamebanana import Gamebanana
 from ..modules.cache import cache_download
 from ..modules.utils import Blueprint, idle
 
@@ -13,7 +13,7 @@ import re
 def html_to_pango(html: str) -> str:
     # Replace <br> and <p> with newlines
     html = re.sub(r"<br\s*/?>", "\n", html)
-    html = re.sub(r"</p>", "\n", html)
+    html = re.sub(r"</p>", "", html)
     html = re.sub(r"<p>", "", html)
 
     # Replace <b>, <i>, <u>
@@ -186,17 +186,20 @@ class ModPage(Adw.NavigationPage):
                     break
 
                 for update in records:
+                    subtitle = html_to_pango(update["_sText"])
                     exp = Adw.ExpanderRow(
-                        title=update["_sName"], subtitle=update["_sText"]
+                        use_markup=True,
+                        title=update["_sName"],
+                        subtitle=subtitle,
                     )
                     if (n := update.get("_aChangeLog")) is not None:
                         for change in n:
-                            txt = change["text"].replace("<p>", "").replace("</p>", "")
                             exp.add_row(
                                 Adw.ActionRow(
                                     css_classes=["property"],
+                                    use_markup=True,
                                     title=change["cat"],
-                                    subtitle=txt,
+                                    subtitle=change["text"],
                                 )
                             )
                     idle(self.updates_box.append, exp)
@@ -207,6 +210,7 @@ class ModPage(Adw.NavigationPage):
                     for author in _type["_aAuthors"]:
                         exp.add_row(
                             Adw.ActionRow(
+                                use_markup=True,
                                 css_classes=["property"],
                                 title=author["_sRole"],
                                 subtitle=author["_sName"],
