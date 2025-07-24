@@ -1,0 +1,153 @@
+using Gtk 4.0;
+using Adw 1;
+
+Adw.NavigationView {
+  Adw.NavigationPage {
+    title: "FNF Gooey";
+
+    child: Adw.ToolbarView {
+      content: ScrolledWindow {
+        child: Adw.Clamp {
+          orientation: horizontal;
+          maximum-size: 900;
+
+          child: Box {
+            styles [
+              "box-10",
+            ]
+
+            orientation: vertical;
+            spacing: 10;
+
+            Box {
+              spacing: 20;
+
+              Frame {
+                valign: start;
+
+                child: Overlay {
+                  width-request: 300;
+                  height-request: 200;
+
+                  [overlay]
+                  Picture mod_icon {
+                    content-fit: cover;
+                  }
+                };
+              }
+
+              Box {
+                orientation: vertical;
+                valign: center;
+                spacing: 20;
+                hexpand: true;
+
+                Box {
+                  orientation: vertical;
+
+                  Label mod_title {
+                    styles [
+                      "title-1",
+                    ]
+
+                    label: "FNF Gooey Mix: Pitstop 1 [Song Pack Update]";
+                    xalign: 0;
+                    wrap: true;
+                  }
+
+                  Label mod_caption {
+                    styles [
+                      "caption",
+                    ]
+
+                    opacity: 0.8;
+                    label: "Goober Alert!";
+                    xalign: 0;
+                  }
+                }
+
+                // TODO: implement data wrapbox
+                Button {
+                  styles [
+                    "pill",
+                    "suggested-action",
+                  ]
+
+                  halign: start;
+
+                  child: Adw.ButtonContent {
+                    icon-name: "download-symbolic";
+                    label: "Download";
+                  };
+                }
+              }
+            }
+
+            Label {
+              styles [
+                "card",
+                "box-10",
+              ]
+
+              wrap: true;
+              use-markup: true;
+              label: "I've been wanting to make a mod like this for years, and now it's finally real! Enjoy playing 9 remixes of base game songs playing as Gooey, with being able to use different instrumentals for the remixes and original songs! This is still very early in development, so there is only 9 songs, but i hope y'all enjoy it still!\n\nThis mod has:\n- 1 new playable character\n- 9(10?) remixes\n- 2 new results screens\n- new cutscenes\n- new stickers\n- and more!\n\nGoober Alert!\n\nThe Gooey Mix Pitstop 1 Update is here! Play 4 new songs and 1 remaster with fresh new sprites, music, cutscenes, and more! With new characters, new instrumentals, and a bunch of goober!";
+            }
+
+            Adw.Carousel car {
+              styles [
+                "card",
+                "car",
+              ]
+
+              Picture prev1 {}
+            }
+
+            Box {
+              orientation: vertical;
+              spacing: 10;
+
+              Adw.PreferencesGroup {
+                title: "Credits";
+
+                Adw.ActionRow {
+                  styles [
+                    "property",
+                  ]
+
+                  title: "Director/Animator/Charter/Composer/Coder";
+                  subtitle: "LeGooey";
+                }
+
+                Adw.ActionRow {
+                  styles [
+                    "property",
+                  ]
+
+                  title: "Coder";
+                  subtitle: _("Denoohay");
+                }
+              }
+
+              Adw.PreferencesGroup {
+                title: "Updates";
+
+                Adw.ExpanderRow {
+                  title: "Pitstop";
+
+                  Adw.ActionRow {
+                    styles [
+                      "property",
+                    ]
+
+                    title: "Addition";
+                    subtitle: _("Added Combo Animations to Flora (Mobile)");
+                  }
+                }
+              }
+            }
+          };
+        };
+      };
+    };
+  }

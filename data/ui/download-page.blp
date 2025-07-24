@@ -1,0 +1,18 @@
+using Gtk 4.0;
+using Adw 1;
+
+
+template $DownloadPage : Adw.NavigationPage {
+  title: "Downloads";
+
+  child: Adw.ToolbarView {
+    [top]
+    Adw.HeaderBar {}
+
+    content: Adw.Clamp {
+        ListBox mods_box {
+            selection-mode: none;
+        }
+    };
+  };
+}

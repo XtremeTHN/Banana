@@ -1,0 +1,15 @@
+.box-10 {
+  padding: 10px;
+}
+
+.box-3 {
+  padding: 3px;
+}
+
+.heart {
+  color: var(--accent-red);
+}
+
+.car {
+  min-height: 200px;
+}

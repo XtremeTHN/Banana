@@ -1,0 +1,17 @@
+.mod {
+  padding: 10px;
+  border: 0.2px solid rgba(255, 255, 255, 0.7);
+}
+
+.box-10 {
+  padding: 10px;
+}
+
+.margin-10 {
+  margin: 10px;
+}
+
+.bordered-10 {
+  padding: 10px;
+  border-radius: 10px;
+}

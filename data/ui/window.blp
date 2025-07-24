@@ -1,0 +1,48 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $BananaWindow : Adw.ApplicationWindow {
+  width-request: 600;
+  height-request: 900;
+  content: Adw.NavigationView nav_view {
+    Adw.NavigationPage {
+      title: "Banana";
+
+      child: Adw.ToolbarView {
+        [top]
+        Adw.HeaderBar {
+          [end]
+          Button {
+            icon-name: "system-search-symbolic";
+            clicked => $on_serch_btt_clicked();
+          }
+        }
+        content: Box {
+          orientation: vertical;
+          SearchBar search_bar {
+            child: Gtk.SearchEntry {
+              placeholder-text: _("Search mods");
+              search-changed => $on_search_changed();
+            };
+          }
+
+          Stack {
+            styles ["box-10"]
+            StackPage {
+              title: _("Banana");
+              name: "home";
+
+              child: $HomePage {};
+            }
+            StackPage {
+              title: _("Search");
+              name: "home-search";
+
+              child: $SearchPage {};
+            }
+          }
+        };
+      };
+    }
+  };
+}

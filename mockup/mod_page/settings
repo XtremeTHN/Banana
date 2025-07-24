@@ -1,0 +1,10 @@
+[re/sonny/Workbench]
+show-console=true
+maximized=true
+edited=true
+show-code=false
+code-language=3
+show-style=false
+show-preview=false
+name='mod_page'
+show-ui=true

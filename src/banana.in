@@ -1,0 +1,23 @@
+#!/usr/bin/env python3
+import sys
+import os
+
+PKG_DATA_DIR = "@pkgdatadir@"
+VERSION = "@VERSION@"
+
+sys.path.insert(1, PKG_DATA_DIR)
+
+
+if __name__ == "__main__":
+    from gi.repository import Gio
+
+    resource = Gio.Resource.load(
+        os.path.join(PKG_DATA_DIR, "banana", "data", "banana.gresource")
+    )
+    resource._register()
+    argv = sys.argv
+
+    from banana.main import run
+
+    argv.pop(0)
+    run(argv)

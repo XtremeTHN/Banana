@@ -1,0 +1,20 @@
+<gresources>
+    <gresource prefix="/com/github/XtremeTHN/Banana/">
+        <file>style.css</file>
+
+        <file preprocess="xml-stripblanks">mod-button.ui</file>
+        <file preprocess="xml-stripblanks">top-mod.ui</file>
+        <file preprocess="xml-stripblanks">window.ui</file>
+        <file preprocess="xml-stripblanks">mod-page-dialog.ui</file>
+        <file preprocess="xml-stripblanks">search-page.ui</file>
+        <file preprocess="xml-stripblanks">mod-page.ui</file>
+        <file preprocess="xml-stripblanks">home-page.ui</file>
+        <file preprocess="xml-stripblanks">sidebar-mod.ui</file>
+    </gresource>
+
+    <gresource prefix="/com/github/XtremeTHN/Banana/icons/">
+        <file preprocess="xml-stripblanks" alias="heart-symbolic.svg">icons/heart-symbolic.svg</file>
+        <file preprocess="xml-stripblanks" alias="download-symbolic.svg">icons/download-symbolic.svg</file>
+        <file preprocess="xml-stripblanks" alias="eye-symbolic.svg">icons/eye-symbolic.svg</file>
+    </gresource>
+</gresources>

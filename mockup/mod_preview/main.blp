@@ -1,0 +1,69 @@
+using Gtk 4.0;
+
+Overlay {
+  Picture mod_preview {}
+
+  [overlay]
+  Label {
+    styles [
+      "osd",
+      "title-2",
+      "mod",
+    ]
+
+    valign: start;
+    halign: start;
+    margin-start: 10;
+    margin-top: 10;
+    label: "Best of 6 months";
+  }
+
+  [overlay]
+  Image {
+    styles [
+      "osd",
+      "mod",
+    ]
+
+    margin-top: 10;
+    margin-end: 10;
+    valign: start;
+    halign: end;
+    pixel-size: 44;
+    file: "/home/axel/Pictures/mod_owner_pfp.png";
+    tooltip-text: _("Submitted by LeGooey");
+  }
+
+  [overlay]
+  Box {
+    valign: end;
+    halign: start;
+    orientation: vertical;
+    margin-start: 10;
+    margin-bottom: 10;
+
+    styles [
+      "osd",
+      "mod",
+    ]
+
+    Label {
+      styles [
+        "title-2",
+      ]
+
+      xalign: 0;
+      label: "VS Rewrite: ROUND 2";
+    }
+
+    Label {
+      styles [
+        "caption",
+      ]
+
+      xalign: 0;
+      opacity: 0.8;
+      label: _("ARE YOU READY FOR ROUND 2?");
+    }
+  }
+}

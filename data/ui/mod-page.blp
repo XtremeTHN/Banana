@@ -1,0 +1,130 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $ModPage : Adw.NavigationPage {
+  title: "";
+  child: Adw.ToolbarView {
+    [top]
+    Adw.HeaderBar {}
+
+    content: ScrolledWindow {
+      child: Adw.Clamp {
+        orientation: horizontal;
+        maximum-size: 900;
+
+        child: Box {
+          styles ["box-10"]
+
+          orientation: vertical;
+
+          Box {
+            spacing: 20;
+
+            // Ugly fix to prevent the picture from growing too much
+            Frame {
+              valign: start;
+              child: Overlay {
+                width-request: 300;
+                height-request: 200;
+
+                [overlay]
+                Picture mod_icon {
+                  content-fit: cover;
+                }
+              };
+            }
+
+            Box {
+              orientation: vertical;
+              valign: center;
+              hexpand: true;
+              spacing: 20;
+
+              Box {
+                orientation: vertical;
+
+                Label mod_title {
+                  styles ["title-1"]
+                  xalign: 0;
+                  wrap: true;
+                }
+
+                Label mod_caption {
+                  styles ["caption"]
+                  xalign: 0;
+                  opacity: 0.8;
+                }
+              }
+
+              Adw.WrapBox {
+                Box {
+                  Image {
+                    icon-name: "heart-symbolic";
+                  }
+                  Label likes {
+                    styles ["caption"]
+                  }
+                }
+                Box {
+                  Image {
+                    icon-name: "eye-symbolic";
+                  }
+                  Label downloads {
+                    styles ["caption"]
+                  }
+                }
+                Box {
+                  Image {
+                    icon-name: "download-symbolic";
+                  }
+                  Label views {
+                    styles ["caption"]
+                  }
+                }
+              }
+
+              Button {
+                styles ["pill", "suggested-action"]
+                halign: start;
+
+                child: Adw.ButtonContent {
+                  icon-name: "download-symbolic";
+                  label: "Download";
+                };
+              }
+            }
+          }
+
+          Label mod_description {
+            styles ["card", "box-10"]
+            wrap: true;
+          }
+
+          Adw.Carousel screenshots_carousel {}
+          Adw.CarouselIndicatorDots carousel_dots {}
+
+          Box {
+            orientation: vertical;
+            spacing: 10;
+
+            Label {
+              styles ["title-3"]
+              label: "Credits";
+            }
+            ListBox credits_box {
+              styles ["boxed-list"]
+            }
+
+            Label {
+              styles ["title-3"]
+              label: "Updates";
+            }
+            ListBox updates_box {
+              styles ["boxed-list"]
+            }
+          }
+        };
+      };
+    };
+  };
+}
