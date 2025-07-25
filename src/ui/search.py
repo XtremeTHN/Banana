@@ -35,11 +35,6 @@ class SearchPage(Adw.Bin):
 
     def populate(self, submissions: list[QuerySubmission]):
         GLib.idle_add(self.mods.remove_all)
-
-        if len(submissions) == 0:
-            idle(self.stack.set_visible_child_name, "no-results")
-            return
-
         idle(self.stack.set_visible_child_name, "results")
 
         for x in submissions:
@@ -52,6 +47,9 @@ class SearchPage(Adw.Bin):
 
         if meta["_nRecordCount"] > 0:
             self.populate(submissions["_aRecords"])
+        else:
+            idle(self.stack.set_visible_child_name, "no-results")
+            return
 
     def search(self, entry: Gtk.SearchEntry):
         GLib.idle_add(self.mods.remove_all)

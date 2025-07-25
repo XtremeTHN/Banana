@@ -4,7 +4,11 @@ from ..modules.utils import Blueprint, idle
 
 from .pages import ModPage, WipPage
 from .nav import Navigation
-from gi.repository import Gtk, GLib
+from gi.repository import Gtk, GLib, Adw
+
+
+class UnsupportedSubmission(Exception):
+    pass
 
 
 def get_formatted_period(period: str):
@@ -102,11 +106,19 @@ class ModButton(Gtk.Button):
 
     @Gtk.Template.Callback()
     def on_clicked(self, btt):
+        page = None
         if self.type == "Mod":
             page = ModPage(self.mod_id)
         elif self.type == "Wip":
             page = WipPage(self.mod_id)
-        Navigation.get_default().nav_view.push(page)
+
+        if page is not None:
+            Navigation.get_default().nav_view.push(page)
+            return
+
+        raise UnsupportedSubmission(
+            f'Currently "{self.type}" submissions are not supported'
+        )
 
     def __on_down_finish(self, cover):
         GLib.idle_add(self.mod_cover.set_filename, cover)
