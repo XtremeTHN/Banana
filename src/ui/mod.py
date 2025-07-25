@@ -11,6 +11,20 @@ class UnsupportedSubmission(Exception):
     pass
 
 
+def generic_clicked(_, obj):
+    page = None
+    if obj.type == "Mod":
+        page = ModPage(obj.mod_id)
+    elif obj.type == "Wip":
+        page = WipPage(obj.mod_id)
+
+    if page is not None:
+        Navigation.get_default().nav_view.push(page)
+        return
+
+    raise UnsupportedSubmission(f'Currently "{obj.type}" submissions are not supported')
+
+
 def get_formatted_period(period: str):
     match period:
         case "today":
@@ -46,11 +60,14 @@ class TopMod(Gtk.Overlay):
     def __init__(self, submission: Submission):
         super().__init__()
         self.mod_id = submission["_idRow"]
+        self.type = submission["_sModelName"]
 
         event = Gtk.EventControllerMotion.new()
         self.add_controller(event)
         event.connect("enter", self.__on_hover)
         event.connect("leave", self.__on_hover_lost)
+
+        self.download_btt.connect("clicked", generic_clicked, self)
 
         self.populate(submission)
 
@@ -91,7 +108,7 @@ class ModButton(Gtk.Button):
     mod_caption: Gtk.Label = Gtk.Template.Child()
 
     def __init__(self, submission: SubmissionInfo):
-        super().__init__()
+        super().__init__(css_classes=["flat"])
         self.mod_id = submission["_idRow"]
         self.type = submission["_sModelName"]
 
@@ -104,21 +121,7 @@ class ModButton(Gtk.Button):
 
         self.mod_name.set_label(submission["_sName"])
 
-    @Gtk.Template.Callback()
-    def on_clicked(self, btt):
-        page = None
-        if self.type == "Mod":
-            page = ModPage(self.mod_id)
-        elif self.type == "Wip":
-            page = WipPage(self.mod_id)
-
-        if page is not None:
-            Navigation.get_default().nav_view.push(page)
-            return
-
-        raise UnsupportedSubmission(
-            f'Currently "{self.type}" submissions are not supported'
-        )
+        self.connect("clicked", generic_clicked, self)
 
     def __on_down_finish(self, cover):
         GLib.idle_add(self.mod_cover.set_filename, cover)
