@@ -10,7 +10,9 @@ blueprints = custom_target('blueprints',
     'home-page.blp',
     'sidebar-mod.blp',
     'screenshot.blp',
-    'wip-page.blp'
+    'wip-page.blp',
+    'home-page.blp',
+    'page-bar.blp'
   ),
   output: '.',
   command: [find_program('blueprint-compiler'), 'batch-compile', '@OUTPUT@', '@CURRENT_SOURCE_DIR@', '@INPUT@'],

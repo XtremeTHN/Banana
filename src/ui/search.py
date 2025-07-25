@@ -2,6 +2,7 @@ from ..modules.utils import Blueprint, idle
 from ..modules.gamebanana import Gamebanana
 from ..modules.gamebanana.types import QuerySubmission
 
+from .page_bar import PageBar
 from .mod import ModButton
 from gi.repository import Gtk, Adw, GLib, GObject
 
@@ -10,27 +11,21 @@ from gi.repository import Gtk, Adw, GLib, GObject
 class SearchPage(Adw.Bin):
     __gtype_name__ = "SearchPage"
 
+    page_bar: PageBar = Gtk.Template.Child()
     mods: Gtk.FlowBox = Gtk.Template.Child()
     stack: Gtk.Stack = Gtk.Template.Child()
-
-    page_counter: Gtk.Label = Gtk.Template.Child()
-
-    prev_btt: Gtk.Button = Gtk.Template.Child()
-    next_btt: Gtk.Button = Gtk.Template.Child()
-
-    current_page = GObject.Property(nick="current-page", type=int)
 
     def __init__(self):
         super().__init__()
         self.__search_entry = None
         # self.search_entry.connect("search-changed", self.search)
-        self.page_counter.bind_property(
-            "label",
-            self,
-            "current-page",
-            GObject.BindingFlags.SYNC_CREATE,
-            transform_to=self.tm,
-        )
+        # self.page_counter.bind_property(
+        #     "label",
+        #     self,
+        #     "current-page",
+        #     GObject.BindingFlags.SYNC_CREATE,
+        #     transform_to=self.tm,
+        # )
 
     @GObject.Property(nick="search-entry", type=Gtk.Widget)
     def search_entry(self):
@@ -73,22 +68,6 @@ class SearchPage(Adw.Bin):
             print(n)
         else:
             self.populate(n)
-
-    @Gtk.Template.Callback()
-    def previous_page(self, _):
-        Gamebanana.query_submissions(
-            self.search_entry.get_text(),
-            self.__handle_query,
-            page=self.current_page - 1,
-        )
-
-    @Gtk.Template.Callback()
-    def next_page(self, _):
-        Gamebanana.query_submissions(
-            self.search_entry.get_text(),
-            self.__handle_query,
-            page=self.current_page + 1,
-        )
 
     def search(self, entry: Gtk.SearchEntry):
         GLib.idle_add(self.mods.remove_all)

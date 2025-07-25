@@ -151,6 +151,10 @@ class SubmissionInfo(TypedDict):
     _aFiles: list[SubmissionInfoFileSource]
 
 
+class FeaturedSubmissions(PagedResponse):
+    _aRecords: list[SubmissionInfo]
+
+
 SubmissionWipCredits = TypedDict(
     "SubmissionWipCredits",
     {

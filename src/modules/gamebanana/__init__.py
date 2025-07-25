@@ -2,7 +2,7 @@ import requests
 from ..utils import Thread
 from typing import Callable
 
-from .types import Submission, SubmissionInfo, SortType, PagedRespondeMetadata
+from .types import Submission, SubmissionInfo, SortType, FeaturedSubmissions
 
 GAME_ID = "8694"
 GB_API = "https://gamebanana.com/apiv11"
@@ -97,11 +97,11 @@ class Gamebanana:
         get(f"{GB_API}/Game/{GAME_ID}/TopSubs", callback)
 
     @staticmethod
-    def get_featured_submissions(cb: Callable[[list[SubmissionInfo]], None], page=1):
+    def get_featured_submissions(cb: Callable[[FeaturedSubmissions], None], page=1):
         """
         Fetches the featured submissions for a specific game and page from the GameBanana API.
         """
         get(
             f"{GB_API}/Util/List/Featured?_nPage={page}&_idGameRow={GAME_ID}",
-            lambda x: cb(x["_aRecords"]),
+            lambda x: cb(x, page),
         )

@@ -8,7 +8,8 @@ modules_sources = [
     'window.py',
     'screenshot.py',
     'nav.py',
-    'pages.py'
+    'pages.py',
+    'page_bar.py'
 ]
 
 install_data(modules_sources, install_dir: moduledir)

@@ -5,24 +5,7 @@ using Adw 1;
 template $SearchPage : Adw.Bin {
     child: Adw.ToolbarView {
         [bottom]
-        Box {
-            margin-top: 5;
-            margin-bottom: 5;
-            
-            halign: center;
-            spacing: 10;
-            Button prev_btt {
-                styles ["circular"]
-                icon-name: "go-previous-symbolic";
-                clicked => $previous_page();
-            }
-            Label page_counter {}
-            Button next_btt {
-                styles ["circular"]
-                icon-name: "go-next-symbolic";
-                clicked => $next_page();
-            }
-        }
+        $PageBar page_bar {}
 
         content: ScrolledWindow {
             child: Adw.Clamp {
