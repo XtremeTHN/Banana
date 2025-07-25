@@ -1,6 +1,6 @@
 from ..modules.utils import Blueprint, idle
 from ..modules.gamebanana import Gamebanana
-from ..modules.gamebanana.types import QuerySubmission
+from ..modules.gamebanana.types import QuerySubmission, PagedResponse
 
 from .page_bar import PageBar
 from .mod import ModButton
@@ -18,14 +18,10 @@ class SearchPage(Adw.Bin):
     def __init__(self):
         super().__init__()
         self.__search_entry = None
-        # self.search_entry.connect("search-changed", self.search)
-        # self.page_counter.bind_property(
-        #     "label",
-        #     self,
-        #     "current-page",
-        #     GObject.BindingFlags.SYNC_CREATE,
-        #     transform_to=self.tm,
-        # )
+        self.page_bar.set_banana_func(self.__request_page, self.__handle_query)
+
+    def __request_page(self, cb, page):
+        Gamebanana.query_submissions(self.search_entry.get_text(), cb, page=page)
 
     @GObject.Property(nick="search-entry", type=Gtk.Widget)
     def search_entry(self):
@@ -36,12 +32,6 @@ class SearchPage(Adw.Bin):
         print("setted")
         self.__search_entry = entry
         entry.connect("search-changed", self.search)
-
-    def tm(self, _, x):
-        try:
-            return int(x)
-        except ValueError:
-            return 1
 
     def populate(self, submissions: list[QuerySubmission]):
         GLib.idle_add(self.mods.remove_all)
@@ -56,18 +46,12 @@ class SearchPage(Adw.Bin):
             m = ModButton(x)
             GLib.idle_add(self.mods.append, m)
 
-    def __handle_query(self, result: dict, page: int):
-        # if _bIsComplete is false, then more pages are available.
-        idle(self.next_btt.set_sensitive, not result["_aMetadata"]["_bIsComplete"])
+    def __handle_query(self, submissions: PagedResponse, page: int):
+        meta = submissions["_aMetadata"]
+        self.page_bar.update_widgets(meta, page)
 
-        idle(self.prev_btt.set_sensitive, page > 1)
-
-        idle(self.page_counter.set_label, str(page))
-
-        if (n := result.get("_aRecords")) is None:
-            print(n)
-        else:
-            self.populate(n)
+        if meta["_nRecordCount"] > 0:
+            self.populate(submissions["_aRecords"])
 
     def search(self, entry: Gtk.SearchEntry):
         GLib.idle_add(self.mods.remove_all)
