@@ -15,10 +15,16 @@ class SearchPage(Adw.Bin):
     mods: Gtk.FlowBox = Gtk.Template.Child()
     stack: Gtk.Stack = Gtk.Template.Child()
 
+    loading_page: Adw.StatusPage = Gtk.Template.Child()
+
     def __init__(self):
         super().__init__()
         self.__search_entry = None
         self.page_bar.set_banana_func(self.__request_page, self.__handle_query)
+
+        spinner = Adw.SpinnerPaintable.new()
+        spinner.set_widget(self.loading_page)
+        self.loading_page.set_paintable(spinner)
 
     def __request_page(self, cb, page):
         Gamebanana.query_submissions(self.search_entry.get_text(), cb, page=page)
@@ -52,7 +58,9 @@ class SearchPage(Adw.Bin):
             return
 
     def search(self, entry: Gtk.SearchEntry):
-        GLib.idle_add(self.mods.remove_all)
+        self.stack.set_visible_child_name("loading")
+        self.mods.remove_all()
+
         query = entry.get_text().strip()
 
         if len(query) < 3:
