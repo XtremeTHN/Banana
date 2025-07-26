@@ -18,11 +18,12 @@ def generic_clicked(_, obj):
     elif obj.type == "Wip":
         page = WipPage(obj.mod_id)
 
-    if page is not None:
-        Navigation.get_default().nav_view.push(page)
-        return
+    if page is None:
+        raise UnsupportedSubmission(
+            f'Currently "{obj.type}" submissions are not supported'
+        )
 
-    raise UnsupportedSubmission(f'Currently "{obj.type}" submissions are not supported')
+    Navigation.get_default().nav_view.push(page)
 
 
 def get_formatted_period(period: str):
