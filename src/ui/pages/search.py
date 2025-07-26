@@ -1,9 +1,9 @@
-from ..modules.utils import Blueprint, idle
-from ..modules.gamebanana import Gamebanana
-from ..modules.gamebanana.types import QuerySubmission, PagedResponse
+from ...modules.utils import Blueprint, idle
+from ...modules.gamebanana import Gamebanana
+from ...modules.gamebanana.types import QuerySubmission, PagedResponse
 
-from .page_bar import PageBar
-from .mod import ModButton
+from ..page_bar import PageBar
+from ..mod import ModButton
 from gi.repository import Gtk, Adw, GLib, GObject
 
 

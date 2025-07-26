@@ -1,9 +1,8 @@
 from ..modules.utils import Blueprint
 
-# from .sidebar import BananaSidebar
 from .nav import Navigation
-from .home import HomePage
-from .search import SearchPage
+from .pages.home import HomePage
+from .pages.search import SearchPage
 
 from gi.repository import Gtk, Adw
 

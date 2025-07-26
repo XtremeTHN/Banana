@@ -1,11 +1,11 @@
-from ..modules.utils import Blueprint, idle
-from ..modules.gamebanana.types import Submission, FeaturedSubmissions
-from ..modules.gamebanana import Gamebanana
+from ...modules.utils import Blueprint, idle
+from ...modules.gamebanana.types import Submission, FeaturedSubmissions
+from ...modules.gamebanana import Gamebanana
 
-from .page_bar import PageBar
-from .mod import TopMod, ModButton
+from ..page_bar import PageBar
+from ..mod import TopMod, ModButton
 
-from gi.repository import Gtk, Adw, GLib, GObject
+from gi.repository import Gtk, Adw, GLib
 
 
 @Blueprint("home-page")

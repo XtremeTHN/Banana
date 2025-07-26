@@ -1,10 +1,12 @@
-from ..modules.gamebanana.types import Submission, SubmissionInfo
-from ..modules.cache import cache_download
-from ..modules.utils import Blueprint, idle
+from src.modules.gamebanana.types import Submission, SubmissionInfo
+from src.modules.cache import cache_download
+from src.modules.utils import Blueprint, idle
 
-from .pages import ModPage, WipPage
+from .pages.submissions.mod import ModPage
+from .pages.submissions.wip import WipPage
+
 from .nav import Navigation
-from gi.repository import Gtk, GLib, Adw
+from gi.repository import Gtk, GLib
 
 
 class UnsupportedSubmission(Exception):
