@@ -1,8 +1,7 @@
 using Gtk 4.0;
 using Adw 1;
 
-
-template $DownloadPage : Adw.NavigationPage {
+template $DownloadPage: Adw.NavigationPage {
   title: "Downloads";
 
   child: Adw.ToolbarView {
@@ -10,9 +9,9 @@ template $DownloadPage : Adw.NavigationPage {
     Adw.HeaderBar {}
 
     content: Adw.Clamp {
-        ListBox mods_box {
-            selection-mode: none;
-        }
+      ListBox mods_box {
+        selection-mode: none;
+      }
     };
   };
 }

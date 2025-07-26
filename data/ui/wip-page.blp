@@ -1,8 +1,9 @@
 using Gtk 4.0;
 using Adw 1;
 
-template $WipPage : Adw.NavigationPage {
+template $WipPage: Adw.NavigationPage {
   title: "";
+
   child: Adw.ToolbarView {
     [top]
     Adw.HeaderBar {}
@@ -14,6 +15,7 @@ template $WipPage : Adw.NavigationPage {
 
       StackPage {
         name: "loading";
+
         child: Adw.StatusPage loading_status {
           title: _("Loading");
           description: _("Loading wip information...");
@@ -22,6 +24,7 @@ template $WipPage : Adw.NavigationPage {
 
       StackPage {
         name: "trashed";
+
         child: Adw.StatusPage trashed_status {
           title: _("Trashed");
           icon-name: "user-trash-symbolic";
@@ -30,6 +33,7 @@ template $WipPage : Adw.NavigationPage {
 
       StackPage {
         name: "main";
+
         child: ScrolledWindow {
           child: Adw.Clamp {
             orientation: horizontal;
@@ -41,10 +45,10 @@ template $WipPage : Adw.NavigationPage {
 
               Box {
                 spacing: 20;
-
                 // Ugly fix to prevent the picture from growing too much
                 Frame {
                   valign: start;
+
                   child: Overlay {
                     width-request: 300;
                     height-request: 200;
@@ -66,13 +70,19 @@ template $WipPage : Adw.NavigationPage {
                     orientation: vertical;
 
                     Label wip_title {
-                      styles ["title-1"]
+                      styles [
+                        "title-1",
+                      ]
+
                       xalign: 0;
                       wrap: true;
                     }
 
                     Label wip_caption {
-                      styles ["caption"]
+                      styles [
+                        "caption",
+                      ]
+
                       xalign: 0;
                       opacity: 0.8;
                     }
@@ -80,27 +90,44 @@ template $WipPage : Adw.NavigationPage {
 
                   Adw.WrapBox {
                     child-spacing: 5;
+
                     Box {
-                      styles ["card", "mod-data"]
+                      styles [
+                        "card",
+                        "mod-data",
+                      ]
+
                       spacing: 5;
+
                       Image {
                         icon-name: "heart-symbolic";
                         pixel-size: 12;
                       }
+
                       Label likes {
-                        styles ["caption"]
+                        styles [
+                          "caption",
+                        ]
                       }
                     }
+
                     Box {
-                      styles ["card", "mod-data"]
+                      styles [
+                        "card",
+                        "mod-data",
+                      ]
+
                       spacing: 5;
 
                       Image {
                         pixel-size: 12;
                         icon-name: "eye-symbolic";
                       }
+
                       Label views {
-                        styles ["caption"]
+                        styles [
+                          "caption",
+                        ]
                       }
                     }
                   }
@@ -118,14 +145,19 @@ template $WipPage : Adw.NavigationPage {
                 orientation: vertical;
 
                 Label completed_label {
-                    halign: center;
-                    xalign: 1;
+                  halign: center;
+                  xalign: 1;
                 }
+
                 LevelBar completed {}
               }
 
               Label wip_description {
-                styles ["card", "box-10"]
+                styles [
+                  "card",
+                  "box-10",
+                ]
+
                 xalign: 0;
                 wrap: true;
               }
@@ -134,6 +166,7 @@ template $WipPage : Adw.NavigationPage {
                 height-request: 250;
                 spacing: 10;
               }
+
               Adw.CarouselIndicatorDots {
                 carousel: screenshots_carousel;
               }
@@ -143,12 +176,19 @@ template $WipPage : Adw.NavigationPage {
                 spacing: 10;
 
                 Label {
-                  styles ["title-4"]
+                  styles [
+                    "title-4",
+                  ]
+
                   xalign: 0;
                   label: "Updates";
                 }
+
                 ListBox updates_box {
-                  styles ["boxed-list"]
+                  styles [
+                    "boxed-list",
+                  ]
+
                   selection-mode: none;
                 }
               }
@@ -158,12 +198,19 @@ template $WipPage : Adw.NavigationPage {
                 spacing: 10;
 
                 Label {
-                  styles ["title-4"]
+                  styles [
+                    "title-4",
+                  ]
+
                   xalign: 0;
                   label: "Credits";
                 }
+
                 ListBox credits_box {
-                  styles ["boxed-list"]
+                  styles [
+                    "boxed-list",
+                  ]
+
                   selection-mode: none;
                 }
               }

@@ -2,7 +2,11 @@ using Gtk 4.0;
 using Adw 1;
 
 template $TopMod: Overlay {
-  styles ["card", "box-10"]
+  styles [
+    "card",
+    "box-10",
+  ]
+
   child: Frame {
     child: Picture mod_preview {
       // styles ["top-mod-cover"]
@@ -13,7 +17,11 @@ template $TopMod: Overlay {
 
   [overlay]
   Button download_btt {
-    styles ["osd", "circular"]
+    styles [
+      "osd",
+      "circular",
+    ]
+
     valign: center;
     halign: center;
     visible: false;
@@ -26,7 +34,7 @@ template $TopMod: Overlay {
       "osd",
       "title-2",
       "bordered-10",
-      "margin-10"
+      "margin-10",
     ]
 
     valign: start;
@@ -38,8 +46,9 @@ template $TopMod: Overlay {
     styles [
       "osd",
       "bordered-10",
-      "margin-10"
+      "margin-10",
     ]
+
     valign: start;
     halign: end;
     pixel-size: 44;
@@ -50,7 +59,7 @@ template $TopMod: Overlay {
     styles [
       "osd",
       "bordered-10",
-      "margin-10"
+      "margin-10",
     ]
 
     valign: end;
@@ -61,6 +70,7 @@ template $TopMod: Overlay {
       styles [
         "title-2",
       ]
+
       ellipsize: end;
       xalign: 0;
     }

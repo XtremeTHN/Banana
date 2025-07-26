@@ -1,11 +1,11 @@
 using Gtk 4.0;
 using Adw 1;
 
-template $ModButton : Button {
+template $ModButton: Button {
   hexpand: true;
   halign: center;
-
   clicked => $on_clicked();
+
   child: Adw.Clamp {
     // maximum-size: 100;
     child: Box {
@@ -21,14 +21,14 @@ template $ModButton : Button {
       Frame {
         vexpand: true;
         hexpand: true;
-        child:
-          Picture mod_cover {
-            width-request: 180;
-            height-request: 120;
-            content-fit: cover;
-            valign: fill;
-            halign: center;
-          };
+
+        child: Picture mod_cover {
+          width-request: 180;
+          height-request: 120;
+          content-fit: cover;
+          valign: fill;
+          halign: center;
+        };
       }
 
       Box {
@@ -43,6 +43,7 @@ template $ModButton : Button {
             "caption",
             "dimmed",
           ]
+
           visible: false;
           opacity: 0.7;
         }

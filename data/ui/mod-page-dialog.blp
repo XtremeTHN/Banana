@@ -1,28 +1,35 @@
 using Gtk 4.0;
 using Adw 1;
 
+template $DownloadDialog: Adw.Dialog {
+  title: _("Downloads");
 
-template $DownloadDialog : Adw.Dialog {
-    title: _("Downloads");
+  child: Adw.ToolbarView {
+    [top]
+    Adw.HeaderBar {}
 
-    child: Adw.ToolbarView {
-      [top]
-      Adw.HeaderBar {}
+    content: Adw.Clamp {
+      child: Box {
+        Label {
+          styles [
+            "title-2",
+          ]
 
-      content: Adw.Clamp {
-        child: Box {
-            Label {
-                styles ["title-2"]
-                label: _("Files");
-            }
-            ListBox files_box {}
+          label: _("Files");
+        }
 
-            Label {
-                styles ["title-2"]
-                label: _("Alternate file sources");
-            }
-            ListBox alt_files_box {}
-        };
+        ListBox files_box {}
+
+        Label {
+          styles [
+            "title-2",
+          ]
+
+          label: _("Alternate file sources");
+        }
+
+        ListBox alt_files_box {}
       };
     };
+  };
 }

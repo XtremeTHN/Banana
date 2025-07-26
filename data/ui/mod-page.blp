@@ -1,8 +1,9 @@
 using Gtk 4.0;
 using Adw 1;
 
-template $ModPage : Adw.NavigationPage {
+template $ModPage: Adw.NavigationPage {
   title: "";
+
   child: Adw.ToolbarView {
     [top]
     Adw.HeaderBar {}
@@ -14,6 +15,7 @@ template $ModPage : Adw.NavigationPage {
 
       StackPage {
         name: "loading";
+
         child: Adw.StatusPage loading_status {
           title: _("Loading");
           description: _("Loading mod information...");
@@ -22,14 +24,16 @@ template $ModPage : Adw.NavigationPage {
 
       StackPage {
         name: "trashed";
+
         child: Adw.StatusPage trashed_status {
           title: _("Trashed");
           icon-name: "user-trash-symbolic";
         };
       }
-      
+
       StackPage {
         name: "main";
+
         child: ScrolledWindow {
           child: Adw.Clamp {
             orientation: horizontal;
@@ -41,10 +45,10 @@ template $ModPage : Adw.NavigationPage {
 
               Box {
                 spacing: 20;
-
                 // Ugly fix to prevent the picture from growing too much
                 Frame {
                   valign: start;
+
                   child: Overlay {
                     width-request: 300;
                     height-request: 200;
@@ -66,13 +70,19 @@ template $ModPage : Adw.NavigationPage {
                     orientation: vertical;
 
                     Label mod_title {
-                      styles ["title-1"]
+                      styles [
+                        "title-1",
+                      ]
+
                       xalign: 0;
                       wrap: true;
                     }
 
                     Label mod_caption {
-                      styles ["caption"]
+                      styles [
+                        "caption",
+                      ]
+
                       xalign: 0;
                       opacity: 0.8;
                     }
@@ -80,45 +90,74 @@ template $ModPage : Adw.NavigationPage {
 
                   Adw.WrapBox {
                     child-spacing: 5;
+
                     Box {
-                      styles ["card", "mod-data"]
+                      styles [
+                        "card",
+                        "mod-data",
+                      ]
+
                       spacing: 5;
+
                       Image {
                         icon-name: "heart-symbolic";
                         pixel-size: 12;
                       }
+
                       Label likes {
-                        styles ["caption"]
+                        styles [
+                          "caption",
+                        ]
                       }
                     }
+
                     Box {
-                      styles ["card", "mod-data"]
+                      styles [
+                        "card",
+                        "mod-data",
+                      ]
+
                       spacing: 5;
 
                       Image {
                         pixel-size: 12;
                         icon-name: "eye-symbolic";
                       }
+
                       Label views {
-                        styles ["caption"]
+                        styles [
+                          "caption",
+                        ]
                       }
                     }
+
                     Box {
-                      styles ["card", "mod-data"]
+                      styles [
+                        "card",
+                        "mod-data",
+                      ]
+
                       spacing: 5;
 
                       Image {
                         pixel-size: 12;
                         icon-name: "download-symbolic";
                       }
+
                       Label downloads {
-                        styles ["caption"]
+                        styles [
+                          "caption",
+                        ]
                       }
                     }
                   }
 
                   Button {
-                    styles ["pill", "suggested-action"]
+                    styles [
+                      "pill",
+                      "suggested-action",
+                    ]
+
                     halign: start;
 
                     child: Adw.ButtonContent {
@@ -135,10 +174,14 @@ template $ModPage : Adw.NavigationPage {
               }
 
               Adw.Carousel screenshots_carousel {
-                styles ["boxed-list"]
+                styles [
+                  "boxed-list",
+                ]
+
                 height-request: 250;
                 spacing: 10;
               }
+
               Adw.CarouselIndicatorDots {
                 carousel: screenshots_carousel;
               }
@@ -148,22 +191,36 @@ template $ModPage : Adw.NavigationPage {
                 spacing: 10;
 
                 Label {
-                  styles ["title-4"]
+                  styles [
+                    "title-4",
+                  ]
+
                   xalign: 0;
                   label: "Updates";
                 }
+
                 ListBox updates_box {
-                  styles ["boxed-list"]
+                  styles [
+                    "boxed-list",
+                  ]
+
                   selection-mode: none;
                 }
 
                 Label {
-                  styles ["title-4"]
+                  styles [
+                    "title-4",
+                  ]
+
                   xalign: 0;
                   label: "Credits";
                 }
+
                 ListBox credits_box {
-                  styles ["boxed-list"]
+                  styles [
+                    "boxed-list",
+                  ]
+
                   selection-mode: none;
                 }
               }
