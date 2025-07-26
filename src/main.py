@@ -18,17 +18,20 @@ class Application(Adw.Application):
             flags=Gio.ApplicationFlags.DEFAULT_FLAGS,
         )
         self.win = None
-        self.old_thread_hook = threading.excepthook
         self.old_hook = sys.excepthook
 
         sys.excepthook = self.exception_hook
-        threading.excepthook = self.thread_hook
+        threading.excepthook = self.exception_hook
 
-    def thread_hook(self, args: threading.ExceptHookArgs):
-        self.old_thread_hook(args)
-        self.present_err_diag(args.exc_type.__name__, " ".join(args.exc_value.args))
+    def exception_hook(self, exc_type, *extra):
+        if len(extra) > 0:
+            exc_value = extra[0]
+            exc_traceback = extra[1]
+        else:
+            exc_value = exc_type.exc_value
+            exc_traceback = exc_type.exc_traceback
+            exc_type = exc_type.exc_type
 
-    def exception_hook(self, exc_type, exc_value, exc_traceback):
         self.old_hook(exc_type, exc_value, exc_traceback)
         self.present_err_diag(exc_type.__name__, " ".join(exc_value.args))
 
