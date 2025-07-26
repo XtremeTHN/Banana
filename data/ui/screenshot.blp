@@ -1,11 +1,8 @@
 using Gtk 4.0;
 
-template $Screenshot : Box {
-    styles ["card", "box-10"]
-    Frame {
-        hexpand: true;
-        child: Picture pic {
-            content-fit: cover;
-        };
-    }
+template $Screenshot : Frame {
+    hexpand: true;
+    child: Picture pic {
+        content-fit: cover;
+    };
 }
