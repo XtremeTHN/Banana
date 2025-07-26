@@ -53,7 +53,7 @@ class SearchPage(Adw.Bin):
 
     def search(self, entry: Gtk.SearchEntry):
         GLib.idle_add(self.mods.remove_all)
-        query = entry.get_text()
+        query = entry.get_text().strip()
 
         if len(query) < 3:
             self.stack.set_visible_child_name("too-short")
