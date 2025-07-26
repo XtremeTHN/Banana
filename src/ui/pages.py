@@ -43,18 +43,12 @@ def populate_credits(box, array_credits):
                     )
                 )
             idle(box.append, exp)
-    else:
-        box.append(Adw.ActionRow(title="No credits"))
 
 
 def populate_updates(box: Gtk.ListBox, submission_type: str, submission_id: str):
     updates = Gamebanana.get_submission_updates(submission_type, submission_id)
     # TODO: refactor this, it looks ugly
     for records in updates:
-        if len(records) == 0:
-            box.append(Adw.ActionRow(title="No updates"))
-            break
-
         for update in records:
             subtitle = sanitaze_html(update["_sText"])
             exp = Adw.ExpanderRow(

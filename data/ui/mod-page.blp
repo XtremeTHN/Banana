@@ -162,7 +162,7 @@ template $ModPage: Adw.NavigationPage {
 
                     child: Adw.ButtonContent {
                       icon-name: "download-symbolic";
-                      label: "Download";
+                      label: _("Download");
                     };
                   }
                 }
@@ -196,7 +196,7 @@ template $ModPage: Adw.NavigationPage {
                   ]
 
                   xalign: 0;
-                  label: "Updates";
+                  label: _("Updates");
                 }
 
                 ListBox updates_box {
@@ -205,6 +205,11 @@ template $ModPage: Adw.NavigationPage {
                   ]
 
                   selection-mode: none;
+
+                  [placeholder]
+                  Adw.ActionRow {
+                    subtitle: _("No updates");
+                  }
                 }
 
                 Label {
@@ -213,15 +218,19 @@ template $ModPage: Adw.NavigationPage {
                   ]
 
                   xalign: 0;
-                  label: "Credits";
+                  label: _("Credits");
                 }
 
                 ListBox credits_box {
                   styles [
                     "boxed-list",
                   ]
-
                   selection-mode: none;
+
+                  [placeholder]
+                  Adw.ActionRow {
+                    subtitle: _("No credits");
+                  }
                 }
               }
             };
