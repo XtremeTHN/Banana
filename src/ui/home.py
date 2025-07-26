@@ -39,6 +39,9 @@ class HomePage(Adw.Bin):
         self.auto_scroll_running = False
 
     def auto_scroll(self):
+        if self.auto_scroll_running is False:
+            return False
+
         if self.last_mod is None:
             self.last_mod = self.mod_carousel.get_first_child()
 
@@ -50,7 +53,7 @@ class HomePage(Adw.Bin):
             self.last_mod = self.mod_carousel.get_first_child()
 
         self.mod_carousel.scroll_to(self.last_mod, True)
-        return self.auto_scroll_running
+        return True
 
     def populate_carousel(self, submissions: list[Submission]):
         for x in submissions:
