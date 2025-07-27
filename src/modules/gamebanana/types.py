@@ -95,7 +95,7 @@ class SubmissionInfoCreditsType(TypedDict):
 class SubmissionInfoFileSource(TypedDict):
     _idRow: int
     _sFile: str
-    _nFilesize: str
+    _nFilesize: int
     _sDownloadUrl: str
     _sMd5Checksum: str
     _sDescription: str
@@ -145,10 +145,11 @@ class SubmissionInfo(TypedDict):
     _aLicenseChecklist: SubmissionInfoLicenseCheckList
 
     _aCredits: list[SubmissionInfoCreditsType]
+
+    _aFiles: list[SubmissionInfoFileSource]
     _aAlternateFileSources: list[SubmissionInfoAltFileSource]
 
     _aSubmitter: GenericProfile
-    _aFiles: list[SubmissionInfoFileSource]
 
 
 class FeaturedSubmissions(PagedResponse):
