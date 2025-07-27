@@ -3,6 +3,7 @@ from ..modules.utils import Blueprint
 from .nav import Navigation
 from .pages.home import HomePage
 from .pages.search import SearchPage
+from .pages.downloads import DownloadsPage
 
 from gi.repository import Gtk, Adw
 
@@ -14,6 +15,7 @@ class BananaWindow(Adw.ApplicationWindow):
     stack: Gtk.Stack = Gtk.Template.Child()
     search_bar: Gtk.SearchBar = Gtk.Template.Child()
     nav_view: Navigation = Gtk.Template.Child()
+    down_page: DownloadsPage = Gtk.Template.Child()
 
     home_page: HomePage = Gtk.Template.Child()
     search_page: SearchPage = Gtk.Template.Child()
@@ -21,13 +23,10 @@ class BananaWindow(Adw.ApplicationWindow):
     def __init__(self, app):
         super().__init__(application=app)
         Navigation._instance = self.nav_view
+        DownloadsPage._instance = self.down_page
 
         self.search_bar.set_key_capture_widget(self)
         self.present()
-
-    @classmethod
-    def get_default(cls):
-        return cls._instance
 
     @Gtk.Template.Callback()
     def on_search_changed(self, entry: Gtk.SearchEntry):
@@ -40,3 +39,7 @@ class BananaWindow(Adw.ApplicationWindow):
     @Gtk.Template.Callback()
     def on_serch_btt_clicked(self, btt):
         self.search_bar.set_search_mode(not self.search_bar.props.search_mode_enabled)
+
+    @Gtk.Template.Callback()
+    def on_downloads_clicked(self, _):
+        self.nav_view.navigation.push_by_tag("downloads")

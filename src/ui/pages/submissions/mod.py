@@ -1,8 +1,9 @@
 from gi.repository import Gtk, Adw
 
 from src.ui.screenshot import Screenshot
-from src.modules.utils import Blueprint, idle
 from src.modules.cache import cache_download
+from src.modules.utils import Blueprint, idle
+from .download import SubmissionDownloadDialog
 from src.modules.gamebanana import Gamebanana
 from src.modules.gamebanana.types import SubmissionInfo
 from .utils import sanitaze_html, populate_credits, populate_updates
@@ -37,9 +38,19 @@ class ModPage(Adw.NavigationPage):
         spinner.set_widget(self.loading_status)
 
         self.mod_id = mod_id
+        self.info: SubmissionInfo = None
 
         # TODO: if this converts into a gamebanana general client, change this to the type of the submission id
         Gamebanana.get_submission_info("Mod", mod_id, self.populate)
+
+    @Gtk.Template.Callback()
+    def on_download_clicked(self, _):
+        diag = SubmissionDownloadDialog(
+            self.info["_sName"],
+            self.info["_aFiles"],
+            self.info["_aAlternateFileSources"],
+        )
+        diag.present(self.get_root())
 
     def populate(self, submission: SubmissionInfo):
         def finish(cover, *images):
@@ -73,5 +84,6 @@ class ModPage(Adw.NavigationPage):
             )
             return
 
+        self.info = submission
         if (n := submission["_aPreviewMedia"].get("_aImages")) is not None:
             cache_download(*[f"{x['_sBaseUrl']}/{x['_sFile']}" for x in n], cb=finish)

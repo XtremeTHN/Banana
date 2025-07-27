@@ -6,7 +6,7 @@
         <file preprocess="xml-stripblanks">mod-button.ui</file>
         <file preprocess="xml-stripblanks">top-mod.ui</file>
         <file preprocess="xml-stripblanks">window.ui</file>
-        <file preprocess="xml-stripblanks">mod-page-dialog.ui</file>
+        <file preprocess="xml-stripblanks">submission-download-dialog.ui</file>
         <file preprocess="xml-stripblanks">search-page.ui</file>
         <file preprocess="xml-stripblanks">mod-page.ui</file>
         <file preprocess="xml-stripblanks">home-page.ui</file>
@@ -14,6 +14,9 @@
         <file preprocess="xml-stripblanks">screenshot.ui</file>
         <file preprocess="xml-stripblanks">wip-page.ui</file>
         <file preprocess="xml-stripblanks">page-bar.ui</file>
+        <file preprocess="xml-stripblanks">downloads-page.ui</file>
+        <file preprocess="xml-stripblanks">download-item.ui</file>
+
     </gresource>
 
     <gresource prefix="/com/github/XtremeTHN/Banana/icons/scalable/actions/">

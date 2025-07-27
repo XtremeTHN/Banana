@@ -8,19 +8,16 @@ class Navigation(Adw.Bin):
 
     def __init__(self):
         super().__init__()
-        self.__page = None
-        self.nav_view = Adw.NavigationView()
+        self.__navigation: Adw.NavigationView = None
 
-        self.set_child(self.nav_view)
+    @GObject.Property(type=Adw.NavigationView)
+    def navigation(self):
+        return self.__navigation
 
-    @GObject.Property(type=Adw.NavigationPage)
-    def page(self):
-        return self.__page
-
-    @page.setter
-    def page(self, page):
-        self.__page = page
-        self.nav_view.push(page)
+    @navigation.setter
+    def navigation(self, widget):
+        self.__navigation = widget
+        self.set_child(self.__navigation)
 
     @classmethod
     def get_default(cls):

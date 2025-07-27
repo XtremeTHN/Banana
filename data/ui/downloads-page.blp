@@ -1,0 +1,80 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $DownloadsPage: Adw.NavigationPage {
+  tag: "downloads";
+  title: "Downloads";
+
+  child: Adw.ToolbarView {
+    [top]
+    Adw.HeaderBar {
+      [end]
+      Button stop_all_btt {
+        child: Adw.ButtonContent {
+          label: _("Stop all");
+          icon-name: "media-playback-stop-symbolic";
+        };
+      }
+
+      title-widget: Adw.ViewSwitcher {
+        stack: view_switcher_stack;
+      };
+    }
+
+    content: Adw.ViewStack view_switcher_stack {
+      Adw.ViewStackPage {
+        title: _("Active");
+        name: "active";
+
+        child: Adw.Clamp {
+          Stack active_stack {
+            StackPage {
+              name: "main";
+              child: ListBox active_box {
+                styles ["boxed-list"]
+                selection-mode: none;
+                vexpand: false;
+              };
+            }
+            
+            StackPage {
+              name: "placeholder";
+              child: Adw.StatusPage {
+                icon-name: "download-symbolic";
+                title: _("No active downloads");
+                description: _("Active downloads will appear here.");
+              };
+            }
+          }
+        };
+      }
+
+      Adw.ViewStackPage {
+        title: _("Finished");
+        name: "finished";
+
+        child: Adw.Clamp {
+          Stack finished_stack {
+            StackPage {
+              name: "main";
+              child: ListBox finished_box {
+                styles ["boxed-list"]
+                selection-mode: none;
+                vexpand: false;
+              };
+            }
+            
+            StackPage {
+              name: "placeholder";
+              child: Adw.StatusPage {
+                icon-name: "download-symbolic";
+                title: _("No finished downloads");
+                description: _("Completed downloads will appear here.");
+              };
+            }
+          }
+        };
+      }
+    };
+  };
+}

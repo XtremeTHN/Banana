@@ -1,0 +1,69 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $DownloadItem : ListBoxRow {
+  child: Box {
+    styles [
+      "box-10",
+    ]
+
+    spacing: 10;
+    orientation: vertical;
+
+    Box {
+      spacing: 5;
+      Box {
+        orientation: vertical;
+
+        Label file_title {
+          styles [
+            "heading",
+          ]
+        }
+
+        Label file_name {
+          styles ["caption"]
+          opacity: 0.6;
+          xalign: 0;
+        }
+      }
+
+      Button stop_btt {
+        styles [
+          "circular",
+        ]
+        clicked => $stop_download();
+        icon-name: "media-playback-stop-symbolic";
+      }
+    }
+
+    Button open_btt {
+      visible: false;
+      child: Adw.ButtonContent {
+        icon-name: "folder-open-symbolic";
+        label: "Open";
+      };
+    }
+
+    Box prog_box {
+      orientation: vertical;
+      spacing: 5;
+
+      Box {
+        homogeneous: true;
+
+        Label current_progress {
+          xalign: 0;
+        }
+
+        Label current_speed {
+          halign: end;
+        }
+      }
+
+      ProgressBar progress_bar {
+        fraction: 0.4;
+      }
+    }
+  };
+}

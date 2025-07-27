@@ -25,7 +25,7 @@ def generic_clicked(_, obj):
             f'Currently "{obj.type}" submissions are not supported'
         )
 
-    Navigation.get_default().nav_view.push(page)
+    Navigation().get_default().navigation.push(page)
 
 
 def get_formatted_period(period: str):
