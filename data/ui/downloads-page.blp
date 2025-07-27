@@ -18,61 +18,68 @@ template $DownloadsPage: Adw.NavigationPage {
 
       title-widget: Adw.ViewSwitcher {
         stack: view_switcher_stack;
+        policy: wide;
       };
     }
 
     content: Adw.ViewStack view_switcher_stack {
       Adw.ViewStackPage {
+        icon-name: "download-symbolic";
         title: _("Active");
         name: "active";
 
-        child: Adw.Clamp {
-          Stack active_stack {
-            StackPage {
-              name: "main";
-              child: ListBox active_box {
-                styles ["boxed-list"]
-                selection-mode: none;
-                vexpand: false;
-              };
+        child: ScrolledWindow {
+          child: Adw.Clamp {
+            Stack active_stack {
+              StackPage {
+                name: "main";
+                child: ListBox active_box {
+                  styles ["boxed-list"]
+                  selection-mode: none;
+                  valign: start;
+                };
+              }
+              
+              StackPage {
+                name: "placeholder";
+                child: Adw.StatusPage {
+                  icon-name: "download-symbolic";
+                  title: _("No active downloads");
+                  description: _("Active downloads will appear here.");
+                };
+              }
             }
-            
-            StackPage {
-              name: "placeholder";
-              child: Adw.StatusPage {
-                icon-name: "download-symbolic";
-                title: _("No active downloads");
-                description: _("Active downloads will appear here.");
-              };
-            }
-          }
+          };
         };
       }
 
       Adw.ViewStackPage {
+        icon-name: "checkmark-symbolic";
         title: _("Finished");
         name: "finished";
 
-        child: Adw.Clamp {
-          Stack finished_stack {
-            StackPage {
-              name: "main";
-              child: ListBox finished_box {
-                styles ["boxed-list"]
-                selection-mode: none;
-                vexpand: false;
-              };
+        child: ScrolledWindow {
+          child: Adw.Clamp {
+            Stack finished_stack {
+              StackPage {
+                name: "main";
+                child: ListBox finished_box {
+                  styles ["boxed-list"]
+                  selection-mode: none;
+                  valign: start;
+                };
+              }
+              
+              StackPage {
+                name: "placeholder";
+                child: Adw.StatusPage {
+                  icon-name: "download-symbolic";
+                  title: _("No finished downloads");
+                  description: _("Completed downloads will appear here.");
+                };
+              }
             }
-            
-            StackPage {
-              name: "placeholder";
-              child: Adw.StatusPage {
-                icon-name: "download-symbolic";
-                title: _("No finished downloads");
-                description: _("Completed downloads will appear here.");
-              };
-            }
-          }
+          };
         };
       }
     };
