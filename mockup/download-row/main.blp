@@ -1,0 +1,165 @@
+using Gtk 4.0;
+using Adw 1;
+
+ListBox {
+  valign: center;
+  halign: center;
+  selection-mode: none;
+  show-separators: true;
+
+  styles [
+    "boxed-list",
+  ]
+  Box {
+    visible: true;
+    styles [
+      "box-10",
+    ]
+
+    spacing: 10;
+    orientation: vertical;
+
+    Box {
+      spacing: 5;
+      Box {
+      orientation: vertical;
+      Label {
+        styles [
+          "heading",
+        ]
+
+        label: "FNF Gooey Mix: Pitstop 1 [Song Pack Update]";
+      }
+      Label {
+        styles ["caption"]
+        
+        label: "fnf_goeeymix.zip";
+        opacity: 0.6;
+        xalign: 0;
+      }
+      }
+
+      Button {
+        styles [
+          "circular",
+        ]
+
+        margin-start: 20;
+        icon-name: "media-playback-pause-symbolic";
+      }
+
+      Button {
+        styles [
+          "circular",
+        ]
+
+        icon-name: "media-playback-stop-symbolic";
+      }
+    }
+
+    Button  {
+      visible: false;
+
+      child: Adw.ButtonContent {
+        icon-name: "folder-open-symbolic";
+        label: "Open";
+      };
+    }
+
+    Box {
+      visible: true;
+      orientation: vertical;
+      spacing: 5;
+
+      Box {
+        homogeneous: true;
+
+        Label {
+          xalign: 0;
+          label: "Downlading: 524mb of 1.4gb";
+        }
+
+        Label {
+          halign: end;
+          label: "1.12 mb/s";
+        }
+      }
+
+      ProgressBar{
+        fraction: 0.4;
+      }
+    }
+  }
+  
+  Box {
+    visible: true;
+    styles [
+      "box-10",
+    ]
+
+    spacing: 10;
+    orientation: vertical;
+
+    Box {
+      spacing: 5;
+
+      Label file_title {
+        styles [
+          "heading",
+        ]
+
+        label: "FNF Gooey Mix: Pitstop 1 [Song Pack Update]";
+      }
+
+      Button pause_btt {
+        styles [
+          "circular",
+        ]
+
+        margin-start: 20;
+        icon-name: "media-playback-pause-symbolic";
+      }
+
+      Button stop_btt {
+        styles [
+          "circular",
+        ]
+
+        icon-name: "media-playback-stop-symbolic";
+      }
+    }
+
+    Button open_btt {
+      visible: false;
+
+      child: Adw.ButtonContent {
+        icon-name: "folder-open-symbolic";
+        label: "Open";
+      };
+    }
+
+    Box {
+      visible: true;
+      orientation: vertical;
+      spacing: 5;
+
+      Box {
+        homogeneous: true;
+
+        Label current_progress {
+          xalign: 0;
+          label: "Downlading: 524mb of 1.4gb";
+        }
+
+        Label current_speed {
+          halign: end;
+          label: "1.12 mb/s";
+        }
+      }
+
+      ProgressBar progress_bar {
+        fraction: 0.4;
+      }
+    }
+  }
+}
