@@ -3,11 +3,13 @@ from src.modules.gamebanana.types import (
     SubmissionInfoAltFileSource,
 )
 
-from src.modules.utils import Blueprint, idle
+from src.modules.utils import Blueprint, idle, idle_wrap
 from gi.repository import Gtk, Adw, Gio, GLib
 import threading
 import requests
 import time
+
+import traceback
 
 
 def fmt(size):
@@ -28,7 +30,10 @@ class DownloadItem(Gtk.ListBoxRow):
     stop_btt: Gtk.Button = Gtk.Template.Child()
     open_btt: Gtk.Button = Gtk.Template.Child()
 
-    prog_box: Gtk.Box = Gtk.Template.Child()
+    info_stack: Gtk.Stack = Gtk.Template.Child()
+
+    error_name: Gtk.Label = Gtk.Template.Child()
+    # prog_box: Gtk.Box = Gtk.Template.Child()
 
     def __init__(
         self, download_title: str, path: str, file_info: SubmissionInfoFileSource
@@ -44,23 +49,39 @@ class DownloadItem(Gtk.ListBoxRow):
         self.fmt_size = fmt(self.size)
         self.path = path
 
+    @idle_wrap
+    def show_error(self, error_name):
+        self.info_stack.add_css_class("error")
+        self.error_name.set_label(error_name)
+        self.info_stack.set_visible_child_name("error")
+
+    @idle_wrap
+    def finish(self):
+        self.stop_btt.set_visible(False)
+
+        if self.cancellable.is_cancelled():
+            self.show_error("Cancelled")
+        else:
+            self.info_stack.set_visible_child_name("open")
+        self.on_finish(self)
+
     @Gtk.Template.Callback()
     def stop_download(self, _):
         # TODO: add a graphical indicator that this download has been canceled
         # maybe a 0.5px border with a color
         self.cancellable.cancel()
-        self.on_finish(self)
 
     def start_download(self, on_finish):
-        threading.Thread(target=self.__download, args=[on_finish]).start()
-
-    def __download(self, on_finish):
         self.on_finish = on_finish
+        threading.Thread(target=self.__download).start()
+
+    def __download(self):
         try:
             r = requests.get(self.url, stream=True)
             r.raise_for_status()
         except Exception as e:
-            idle(on_finish, self)
+            self.show_error(e.__class__.__name__)
+            self.finish()
             raise e  # the exception will be showed in a dialog
 
         with open(self.path, "wb") as f:
@@ -82,6 +103,8 @@ class DownloadItem(Gtk.ListBoxRow):
                     f"{fmt(downloaded / (time.time() - start))}/s",
                 )
                 idle(self.progress_bar.set_fraction, downloaded / self.size)
+
+            self.finish()
 
 
 @Blueprint("downloads-page")

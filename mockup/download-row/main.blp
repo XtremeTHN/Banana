@@ -2,136 +2,54 @@ using Gtk 4.0;
 using Adw 1;
 
 ListBox {
-  valign: center;
-  halign: center;
-  selection-mode: none;
-  show-separators: true;
+styles ["boxed-list"]
+selection-mode: none;
+valign: start;
+halign: center;
 
-  styles [
-    "boxed-list",
-  ]
-  Box {
-    visible: true;
+ListBoxRow {
+  child: Box {
     styles [
       "box-10",
     ]
 
     spacing: 10;
+    vexpand: false;
     orientation: vertical;
 
     Box {
       spacing: 5;
       Box {
-      orientation: vertical;
-      Label {
-        styles [
-          "heading",
-        ]
+        orientation: vertical;
+        hexpand: true;
 
-        label: "FNF Gooey Mix: Pitstop 1 [Song Pack Update]";
-      }
-      Label {
-        styles ["caption"]
-        
-        label: "fnf_goeeymix.zip";
-        opacity: 0.6;
-        xalign: 0;
-      }
-      }
-
-      Button {
-        styles [
-          "circular",
-        ]
-
-        margin-start: 20;
-        icon-name: "media-playback-pause-symbolic";
-      }
-
-      Button {
-        styles [
-          "circular",
-        ]
-
-        icon-name: "media-playback-stop-symbolic";
-      }
-    }
-
-    Button  {
-      visible: false;
-
-      child: Adw.ButtonContent {
-        icon-name: "folder-open-symbolic";
-        label: "Open";
-      };
-    }
-
-    Box {
-      visible: true;
-      orientation: vertical;
-      spacing: 5;
-
-      Box {
-        homogeneous: true;
-
-        Label {
+        Label file_title {
+          styles [
+            "heading",
+          ]
           xalign: 0;
-          label: "Downlading: 524mb of 1.4gb";
+          label: "FNF: GOOEY MIX 2 PITSTOP ALV";
         }
 
-        Label {
-          halign: end;
-          label: "1.12 mb/s";
+        Label file_name {
+          styles ["caption"]
+          opacity: 0.6;
+          xalign: 0;
+          label: "fnf_gooey_mix_android_port.zip";
         }
-      }
-
-      ProgressBar{
-        fraction: 0.4;
-      }
-    }
-  }
-  
-  Box {
-    visible: true;
-    styles [
-      "box-10",
-    ]
-
-    spacing: 10;
-    orientation: vertical;
-
-    Box {
-      spacing: 5;
-
-      Label file_title {
-        styles [
-          "heading",
-        ]
-
-        label: "FNF Gooey Mix: Pitstop 1 [Song Pack Update]";
-      }
-
-      Button pause_btt {
-        styles [
-          "circular",
-        ]
-
-        margin-start: 20;
-        icon-name: "media-playback-pause-symbolic";
       }
 
       Button stop_btt {
         styles [
           "circular",
         ]
-
+        clicked => $stop_download();
         icon-name: "media-playback-stop-symbolic";
       }
     }
 
     Button open_btt {
       visible: false;
-
       child: Adw.ButtonContent {
         icon-name: "folder-open-symbolic";
         label: "Open";
@@ -139,27 +57,22 @@ ListBox {
     }
 
     Box {
-      visible: true;
       orientation: vertical;
-      spacing: 5;
-
+      halign: center;
       Box {
-        homogeneous: true;
-
-        Label current_progress {
-          xalign: 0;
-          label: "Downlading: 524mb of 1.4gb";
+        spacing: 5;
+        Image {
+          icon-name: "dialog-error-symbolic";
         }
-
-        Label current_speed {
-          halign: end;
-          label: "1.12 mb/s";
+        Label {
+          label: "Error while downloading:";
         }
       }
-
-      ProgressBar progress_bar {
-        fraction: 0.4;
+      Label {
+        styles ["monospace"]
+        label: "HTTPStatusError";
       }
     }
-  }
+  };
+}
 }

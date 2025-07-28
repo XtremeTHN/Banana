@@ -6,6 +6,13 @@ def idle(func, *args):
     return GLib.idle_add(func, *args)
 
 
+def idle_wrap(func):
+    def wrapper(*args):
+        idle(func, *args)
+
+    return wrapper
+
+
 class Blueprint(Gtk.Template):
     def __init__(self, blp_name):
         super().__init__(resource_path=f"/com/github/XtremeTHN/Banana/{blp_name}.ui")

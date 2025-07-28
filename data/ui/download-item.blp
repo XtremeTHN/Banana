@@ -14,11 +14,13 @@ template $DownloadItem : ListBoxRow {
       spacing: 5;
       Box {
         orientation: vertical;
+        hexpand: true;
 
         Label file_title {
           styles [
             "heading",
           ]
+          xalign: 0;
         }
 
         Label file_name {
@@ -37,32 +39,59 @@ template $DownloadItem : ListBoxRow {
       }
     }
 
-    Button open_btt {
-      visible: false;
-      child: Adw.ButtonContent {
-        icon-name: "folder-open-symbolic";
-        label: "Open";
-      };
-    }
+    Stack info_stack {
+      StackPage {
+        child: Box prog_box {
+          orientation: vertical;
+          spacing: 5;
 
-    Box prog_box {
-      orientation: vertical;
-      spacing: 5;
+          Box {
+            homogeneous: true;
 
-      Box {
-        homogeneous: true;
+            Label current_progress {
+              xalign: 0;
+            }
 
-        Label current_progress {
-          xalign: 0;
-        }
+            Label current_speed {
+              halign: end;
+            }
+          }
 
-        Label current_speed {
-          halign: end;
-        }
+          ProgressBar progress_bar {
+            fraction: 0.4;
+          }
+        };
       }
 
-      ProgressBar progress_bar {
-        fraction: 0.4;
+      StackPage {
+        name: "open";
+        child: Button open_btt {
+          visible: false;
+          child: Adw.ButtonContent {
+            icon-name: "folder-open-symbolic";
+            label: "Open";
+          };
+        };
+      }
+
+      StackPage {
+        name: "error";
+        child: Box {
+          orientation: vertical;
+          halign: center;
+          Box {
+            spacing: 5;
+            Image {
+              icon-name: "dialog-error-symbolic";
+            }
+            Label {
+              label: _("Error while downloading:");
+            }
+          }
+          Label error_name {
+            styles ["monospace"]
+          }
+        };
       }
     }
   };
