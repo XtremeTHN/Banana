@@ -1,8 +1,8 @@
-from src.modules.gamebanana.types import (
+from banana.modules.gamebanana.types import (
     SubmissionInfoFileSource,
     SubmissionInfoAltFileSource,
 )
-from src.modules.utils import Blueprint
+from banana.modules.utils import Blueprint
 from ..downloads import DownloadsPage, DownloadItem
 
 from gi.repository import Gtk, Adw, Gio

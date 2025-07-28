@@ -1,6 +1,6 @@
 from gi.repository import Adw, Gtk
-from src.modules.gamebanana import Gamebanana
-from src.modules.utils import idle  # TODO: rename src folder to banana
+from banana.modules.gamebanana import Gamebanana
+from banana.modules.utils import idle  # TODO: rename src folder to banana
 import re
 
 

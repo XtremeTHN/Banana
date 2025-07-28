@@ -1,11 +1,11 @@
 from gi.repository import Gtk, Adw
 
-from src.ui.screenshot import Screenshot
-from src.modules.cache import cache_download
-from src.modules.utils import Blueprint, idle
+from banana.ui.screenshot import Screenshot
+from banana.modules.cache import cache_download
+from banana.modules.utils import Blueprint, idle
 from .download import SubmissionDownloadDialog
-from src.modules.gamebanana import Gamebanana
-from src.modules.gamebanana.types import SubmissionInfo
+from banana.modules.gamebanana import Gamebanana
+from banana.modules.gamebanana.types import SubmissionInfo
 from .utils import sanitaze_html, populate_credits, populate_updates
 
 

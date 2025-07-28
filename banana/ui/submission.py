@@ -1,6 +1,6 @@
-from src.modules.gamebanana.types import Submission, SubmissionInfo
-from src.modules.cache import cache_download
-from src.modules.utils import Blueprint, idle
+from banana.modules.gamebanana.types import Submission, SubmissionInfo
+from banana.modules.cache import cache_download
+from banana.modules.utils import Blueprint, idle
 
 from .pages.submissions.mod import ModPage
 from .pages.submissions.wip import WipPage
