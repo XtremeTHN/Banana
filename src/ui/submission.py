@@ -48,9 +48,9 @@ def get_formatted_period(period: str):
             print(period)
 
 
-@Blueprint("top-mod")
-class TopMod(Gtk.Overlay):
-    __gtype_name__ = "TopMod"
+@Blueprint("top-submission")
+class TopSubmission(Gtk.Overlay):
+    __gtype_name__ = "TopSubmission"
     mod_preview: Gtk.Picture = Gtk.Template.Child()
     mod_feature_type: Gtk.Label = Gtk.Template.Child()
     mod_submitter: Gtk.Image = Gtk.Template.Child()
@@ -102,9 +102,9 @@ class TopMod(Gtk.Overlay):
         cache_download(submission["_sImageUrl"], submitter["_sAvatarUrl"], cb=on_finish)
 
 
-@Blueprint("mod-button")
-class ModButton(Gtk.Button):
-    __gtype_name__ = "ModButton"
+@Blueprint("submission-button")
+class SubmissionButton(Gtk.Button):
+    __gtype_name__ = "SubmissionButton"
 
     mod_cover: Gtk.Picture = Gtk.Template.Child()
     mod_name: Gtk.Label = Gtk.Template.Child()

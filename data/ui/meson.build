@@ -1,8 +1,8 @@
 blueprints = custom_target('blueprints',
   input: files(
     'navigation.blp',
-    'mod-button.blp',
-    'top-mod.blp',
+    'submission-button.blp',
+    'top-submission.blp',
     'window.blp',
     'submission-download-dialog.blp',
     'search-page.blp',

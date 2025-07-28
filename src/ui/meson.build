@@ -5,7 +5,7 @@ modules_sources = [
     'window.py',
     'screenshot.py',
     'nav.py',
-    'mod.py',
+    'submission.py',
     'page_bar.py'
 ]
 

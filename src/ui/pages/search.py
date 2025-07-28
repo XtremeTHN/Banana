@@ -3,7 +3,7 @@ from ...modules.gamebanana import Gamebanana
 from ...modules.gamebanana.types import QuerySubmission, PagedResponse
 
 from ..page_bar import PageBar
-from ..mod import ModButton
+from ..submission import SubmissionButton
 from gi.repository import Gtk, Adw, GLib, GObject
 
 
@@ -44,7 +44,7 @@ class SearchPage(Adw.Bin):
         idle(self.stack.set_visible_child_name, "results")
 
         for x in submissions:
-            m = ModButton(x)
+            m = SubmissionButton(x)
             GLib.idle_add(self.mods.append, m)
 
     def __handle_query(self, submissions: PagedResponse, page: int):

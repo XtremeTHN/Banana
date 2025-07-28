@@ -3,7 +3,7 @@ from ...modules.gamebanana.types import Submission, FeaturedSubmissions
 from ...modules.gamebanana import Gamebanana
 
 from ..page_bar import PageBar
-from ..mod import TopMod, ModButton
+from ..submission import TopSubmission, SubmissionButton
 
 from gi.repository import Gtk, Adw, GLib
 
@@ -57,7 +57,7 @@ class HomePage(Adw.Bin):
 
     def populate_carousel(self, submissions: list[Submission]):
         for x in submissions:
-            mod = TopMod(x)
+            mod = TopSubmission(x)
             idle(self.mod_carousel.append, mod)
 
         GLib.timeout_add_seconds(5, self.auto_scroll)
@@ -70,5 +70,5 @@ class HomePage(Adw.Bin):
 
         if meta["_nRecordCount"] > 0:
             for x in submissions["_aRecords"]:
-                btt = ModButton(x)
+                btt = SubmissionButton(x)
                 idle(self.mods.append, btt)

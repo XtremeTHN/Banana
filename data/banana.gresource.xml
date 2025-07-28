@@ -3,8 +3,8 @@
         <file>style.css</file>
         
         <file preprocess="xml-stripblanks">navigation.ui</file>
-        <file preprocess="xml-stripblanks">mod-button.ui</file>
-        <file preprocess="xml-stripblanks">top-mod.ui</file>
+        <file preprocess="xml-stripblanks">submission-button.ui</file>
+        <file preprocess="xml-stripblanks">top-submission.ui</file>
         <file preprocess="xml-stripblanks">window.ui</file>
         <file preprocess="xml-stripblanks">submission-download-dialog.ui</file>
         <file preprocess="xml-stripblanks">search-page.ui</file>
