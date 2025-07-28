@@ -1,5 +1,5 @@
 import threading as t
-from gi.repository import Gtk, GLib
+from gi.repository import Gtk, GLib, GObject
 
 
 def idle(func, *args):
@@ -11,6 +11,24 @@ def idle_wrap(func):
         idle(func, *args)
 
     return wrapper
+
+
+class List(GObject.Object):
+    def __init__(self):
+        super().__init__()
+        self.__items = []
+
+    @GObject.Property
+    def items(self):
+        return self.__items
+
+    def append(self, item):
+        self.__items.append(item)
+        self.notify("items")
+
+    def remove(self, item):
+        self.__items.remove(item)
+        self.notify("items")
 
 
 class Blueprint(Gtk.Template):

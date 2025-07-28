@@ -32,20 +32,20 @@ template $DownloadsPage: Adw.NavigationPage {
           child: Adw.Clamp {
             Stack active_stack {
               StackPage {
-                name: "main";
-                child: ListBox active_box {
-                  styles ["boxed-list"]
-                  selection-mode: none;
-                  valign: start;
-                };
-              }
-              
-              StackPage {
                 name: "placeholder";
                 child: Adw.StatusPage {
                   icon-name: "download-symbolic";
                   title: _("No active downloads");
                   description: _("Active downloads will appear here.");
+                };
+              }
+              
+              StackPage {
+                name: "main";
+                child: ListBox active_box {
+                  styles ["boxed-list"]
+                  selection-mode: none;
+                  valign: start;
                 };
               }
             }
@@ -62,20 +62,20 @@ template $DownloadsPage: Adw.NavigationPage {
           child: Adw.Clamp {
             Stack finished_stack {
               StackPage {
-                name: "main";
-                child: ListBox finished_box {
-                  styles ["boxed-list"]
-                  selection-mode: none;
-                  valign: start;
-                };
-              }
-              
-              StackPage {
                 name: "placeholder";
                 child: Adw.StatusPage {
                   icon-name: "download-symbolic";
                   title: _("No finished downloads");
                   description: _("Completed downloads will appear here.");
+                };
+              }
+
+              StackPage {
+                name: "main";
+                child: ListBox finished_box {
+                  styles ["boxed-list"]
+                  selection-mode: none;
+                  valign: start;
                 };
               }
             }

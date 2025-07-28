@@ -3,8 +3,8 @@ from src.modules.gamebanana.types import (
     SubmissionInfoAltFileSource,
 )
 
-from src.modules.utils import Blueprint, idle, idle_wrap
-from gi.repository import Gtk, Adw, Gio, GLib
+from src.modules.utils import Blueprint, List, idle, idle_wrap
+from gi.repository import Gtk, Adw, Gio, GLib, GObject
 
 import urllib.parse
 import threading
@@ -126,14 +126,28 @@ class DownloadsPage(Adw.NavigationPage):
     def __init__(self):
         super().__init__()
 
-        self.active_downloads = []
+        self.active_downloads = List()
         self.finished_downloads_count = 0
+
+        self.active_downloads.connect("notify", self.__toggle_active_placeholder)
+
+    def __toggle_finish_placeholder(self, *_):
+        print("asd")
+        self.finished_stack.set_visible_child_name(
+            "placeholder" if self.finished_downloads_count == 0 else "main"
+        )
+
+    def __toggle_active_placeholder(self, *_):
+        self.active_stack.set_visible_child_name(
+            "placeholder" if len(self.active_downloads.items) == 0 else "main"
+        )
 
     def on_finish(self, item):
         self.active_downloads.remove(item)
         self.active_box.remove(item)
 
         self.finished_downloads_count += 1
+        self.__toggle_finish_placeholder()
         self.finished_box.append(item)
 
     def append_download(self, item: DownloadItem):
