@@ -47,8 +47,8 @@ class ModPage(Adw.NavigationPage):
     def on_download_clicked(self, _):
         diag = SubmissionDownloadDialog(
             self.info["_sName"],
-            self.info["_aFiles"],
-            self.info["_aAlternateFileSources"],
+            self.info.get("_aFiles", []),
+            self.info.get("_aAlternateFileSources", []),
         )
         diag.present(self.get_root())
 

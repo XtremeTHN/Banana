@@ -33,7 +33,6 @@ class DownloadItem(Gtk.ListBoxRow):
     info_stack: Gtk.Stack = Gtk.Template.Child()
 
     error_name: Gtk.Label = Gtk.Template.Child()
-    # prog_box: Gtk.Box = Gtk.Template.Child()
 
     def __init__(
         self, download_title: str, path: str, file_info: SubmissionInfoFileSource
