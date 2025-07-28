@@ -35,7 +35,6 @@ class SearchPage(Adw.Bin):
 
     @search_entry.setter
     def search_entry(self, entry):
-        print("setted")
         self.__search_entry = entry
         entry.connect("search-changed", self.search)
 
