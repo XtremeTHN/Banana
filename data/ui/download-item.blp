@@ -66,6 +66,7 @@ template $DownloadItem : ListBoxRow {
       StackPage {
         name: "open";
         child: Button open_btt {
+          clicked => $open_file();
           child: Adw.ButtonContent {
             icon-name: "folder-open-symbolic";
             label: "Open";

@@ -5,11 +5,11 @@ from src.modules.gamebanana.types import (
 
 from src.modules.utils import Blueprint, idle, idle_wrap
 from gi.repository import Gtk, Adw, Gio, GLib
+
+import urllib.parse
 import threading
 import requests
 import time
-
-import traceback
 
 
 def fmt(size):
@@ -65,9 +65,13 @@ class DownloadItem(Gtk.ListBoxRow):
         self.on_finish(self)
 
     @Gtk.Template.Callback()
+    def open_file(self, _):
+        Gio.AppInfo.launch_default_for_uri_async(
+            f"file://{urllib.parse.quote(self.path)}"
+        )
+
+    @Gtk.Template.Callback()
     def stop_download(self, _):
-        # TODO: add a graphical indicator that this download has been canceled
-        # maybe a 0.5px border with a color
         self.cancellable.cancel()
 
     def start_download(self, on_finish):
