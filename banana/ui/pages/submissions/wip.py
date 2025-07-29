@@ -5,7 +5,7 @@ from banana.modules.utils import Blueprint, idle
 from banana.modules.cache import cache_download
 from banana.modules.gamebanana import Gamebanana
 from banana.modules.gamebanana.types import SubmissionWip
-from .utils import sanitaze_html, populate_credits, populate_updates
+from .utils import populate_credits, populate_updates, parse
 
 
 @Blueprint("wip-page")
@@ -15,7 +15,7 @@ class WipPage(Adw.NavigationPage):
     wip_icon: Gtk.Picture = Gtk.Template.Child()
     wip_title: Gtk.Label = Gtk.Template.Child()
     wip_caption: Gtk.Label = Gtk.Template.Child()
-    wip_description: Gtk.Label = Gtk.Template.Child()
+    wip_description: Gtk.TextView = Gtk.Template.Child()
 
     completed: Gtk.LevelBar = Gtk.Template.Child()
     completed_label: Gtk.Label = Gtk.Template.Child()
@@ -59,8 +59,6 @@ class WipPage(Adw.NavigationPage):
             idle(self.likes.set_label, f"{submission['_nLikeCount']:,}")
             idle(self.views.set_label, f"{submission['_nViewCount']:,}")
 
-            idle(self.wip_description.set_label, sanitaze_html(submission["_sText"]))
-
             idle(
                 self.completed_label.set_label,
                 f"{submission['_sDevelopmentState']} - {submission['_iCompletionPercentage']}% completed",
@@ -73,5 +71,6 @@ class WipPage(Adw.NavigationPage):
             idle(self.stack.set_visible_child_name, "main")
 
         self.set_title(submission["_sName"] + " - Work in progress")
+        self.wip_description.set_buffer(parse(submission["_sText"]))
         if (n := submission["_aPreviewMedia"].get("_aImages")) is not None:
             cache_download(*[f"{x['_sBaseUrl']}/{x['_sFile']}" for x in n], cb=finish)

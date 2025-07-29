@@ -1,4 +1,4 @@
-from gi.repository import Gtk, Adw
+from gi.repository import Gtk, Adw, Pango, GLib
 
 from banana.ui.screenshot import Screenshot
 from banana.modules.cache import cache_download
@@ -6,17 +6,19 @@ from banana.modules.utils import Blueprint, idle
 from .download import SubmissionDownloadDialog
 from banana.modules.gamebanana import Gamebanana
 from banana.modules.gamebanana.types import SubmissionInfo
-from .utils import sanitaze_html, populate_credits, populate_updates
+from .utils import populate_credits, populate_updates, parse
 
 
 @Blueprint("mod-page")
 class ModPage(Adw.NavigationPage):
     __gtype_name__ = "ModPage"
 
+    scroll: Gtk.ScrolledWindow = Gtk.Template.Child()
+
     mod_icon: Gtk.Picture = Gtk.Template.Child()
     mod_title: Gtk.Label = Gtk.Template.Child()
     mod_caption: Gtk.Label = Gtk.Template.Child()
-    mod_description: Gtk.Label = Gtk.Template.Child()
+    mod_description: Gtk.TextView = Gtk.Template.Child()
 
     stack: Gtk.Stack = Gtk.Template.Child()
     screenshots_carousel: Adw.Carousel = Gtk.Template.Child()
@@ -68,8 +70,6 @@ class ModPage(Adw.NavigationPage):
             idle(self.views.set_label, f"{submission['_nViewCount']:,}")
             idle(self.downloads.set_label, f"{submission['_nDownloadCount']:,}")
 
-            idle(self.mod_description.set_label, sanitaze_html(submission["_sText"]))
-
             populate_updates(self.updates_box, "Mod", self.mod_id)
             populate_credits(self.credits_box, submission["_aCredits"])
 
@@ -85,5 +85,6 @@ class ModPage(Adw.NavigationPage):
             return
 
         self.info = submission
+        self.mod_description.set_buffer(parse(submission["_sText"]))
         if (n := submission["_aPreviewMedia"].get("_aImages")) is not None:
             cache_download(*[f"{x['_sBaseUrl']}/{x['_sFile']}" for x in n], cb=finish)

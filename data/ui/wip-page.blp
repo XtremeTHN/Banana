@@ -152,13 +152,18 @@ template $WipPage: Adw.NavigationPage {
                 LevelBar completed {}
               }
 
-              Label wip_description {
-                styles [
-                  "box-10",
-                ]
+              ScrolledWindow {
+                vscrollbar-policy: never;
+                hscrollbar-policy: automatic;
+                child: TextView wip_description {
+                  styles [
+                    "no-background",
+                  ]
 
-                xalign: 0;
-                wrap: true;
+                  editable: false;
+                  wrap-mode: word;
+                  input-purpose: alpha;
+                };
               }
 
               Adw.Carousel screenshots_carousel {

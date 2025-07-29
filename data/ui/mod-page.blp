@@ -34,7 +34,7 @@ template $ModPage: Adw.NavigationPage {
       StackPage {
         name: "main";
 
-        child: ScrolledWindow {
+        child: ScrolledWindow scroll {
           child: Adw.Clamp {
             orientation: horizontal;
             maximum-size: 900;
@@ -169,9 +169,18 @@ template $ModPage: Adw.NavigationPage {
                 }
               }
 
-              Label mod_description {
-                xalign: 0;
-                wrap: true;
+              ScrolledWindow {
+                vscrollbar-policy: never;
+                hscrollbar-policy: automatic;
+                child: TextView mod_description {
+                  styles [
+                    "no-background",
+                  ]
+
+                  editable: false;
+                  wrap-mode: word;
+                  input-purpose: alpha;
+                };
               }
 
               Adw.Carousel screenshots_carousel {
@@ -226,6 +235,7 @@ template $ModPage: Adw.NavigationPage {
                   styles [
                     "boxed-list",
                   ]
+
                   selection-mode: none;
 
                   [placeholder]
