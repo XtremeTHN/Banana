@@ -132,7 +132,6 @@ class DownloadsPage(Adw.NavigationPage):
         self.active_downloads.connect("notify", self.__toggle_active_placeholder)
 
     def __toggle_finish_placeholder(self, *_):
-        print("asd")
         self.finished_stack.set_visible_child_name(
             "placeholder" if self.finished_downloads_count == 0 else "main"
         )

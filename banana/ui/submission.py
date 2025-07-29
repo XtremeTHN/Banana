@@ -6,7 +6,8 @@ from .pages.submissions.mod import ModPage
 from .pages.submissions.wip import WipPage
 
 from .nav import Navigation
-from gi.repository import Gtk, GLib
+from gi.repository import Gtk
+import logging
 
 
 class UnsupportedSubmission(Exception):
@@ -45,7 +46,8 @@ def get_formatted_period(period: str):
         case "alltime":
             return "all time"
         case _:
-            print(period)
+            logging.warning("Unkown period: %s", period)
+            return "Unknown"
 
 
 @Blueprint("top-submission")

@@ -19,5 +19,4 @@ if __name__ == "__main__":
 
     from banana.main import run
 
-    argv.pop(0)
     run(argv)

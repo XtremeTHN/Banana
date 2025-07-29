@@ -2,6 +2,7 @@ from ..modules.utils import Blueprint, idle
 from ..modules.gamebanana.types import PagedRespondeMetadata
 
 from gi.repository import Gtk
+import logging
 
 
 @Blueprint("page-bar")
@@ -12,18 +13,19 @@ class PageBar(Gtk.Box):
     page_counter: Gtk.Label = Gtk.Template.Child()
     next_btt: Gtk.Button = Gtk.Template.Child()
 
-    def __init__(self):
+    def __init__(self, parent_name=None):
         super().__init__()
         self.func_cb = None
         self.func = None
         self.current_page = 1
+        self.logger = logging.getLogger(f"PageBar({parent_name})")
 
     def set_page(self, page):
         self.page_counter.set_label(page)
         try:
             self.current_page = int(page)
         except ValueError:
-            print("invalid page number:", page)
+            self.logger.warning("Invalid page number:", page)
             self.current_page = 1
 
     def disable(self):
@@ -37,6 +39,7 @@ class PageBar(Gtk.Box):
         idle(self.page_counter.set_label, str(page))
 
         self.current_page = page
+        self.logger.info("Changed current page to %i", page)
 
     def set_banana_func(self, gamebanana_func, func_cb):
         self.func_cb = func_cb

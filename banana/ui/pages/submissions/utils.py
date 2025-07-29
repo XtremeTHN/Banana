@@ -2,6 +2,7 @@ from gi.repository import Adw, Gtk, Pango
 from banana.modules.gamebanana import Gamebanana
 from bs4 import BeautifulSoup
 from banana.modules.utils import idle
+import logging
 import re
 
 
@@ -96,8 +97,10 @@ def parse(txt: str):
         if elem.name in table.tags:
             buff.insert_with_tags_by_name(buff.get_iter_at_mark(mark), text, elem.name)
         else:
-            print("tag not supported:", elem.name)
-            print(elem)
+            logging.warning("tag not supported:", elem.name)
+            logging.info(
+                "Report this to the github repo if this error affects the text view"
+            )
 
     return buff
 
