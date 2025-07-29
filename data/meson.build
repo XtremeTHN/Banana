@@ -12,3 +12,10 @@ gnome.compile_resources(
     install: true,
     install_dir: moduledir
 )
+
+install_data('com.github.XtremeTHN.Banana.desktop', 
+    install_dir: join_paths(
+        get_option('datadir'), 
+        'applications'
+    )
+)

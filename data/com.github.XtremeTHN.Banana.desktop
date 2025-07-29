@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Banana
+Comment=Gamebanana client
+Exec=banana %u
+TryExec=banana
+Terminal=false
+Type=Application
+Categories=Utility;GTK;
+StartupNotify=true
+StartupWMClass=bottles
