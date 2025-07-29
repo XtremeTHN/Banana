@@ -109,6 +109,7 @@ class SubmissionButton(Gtk.Button):
     mod_cover: Gtk.Picture = Gtk.Template.Child()
     mod_name: Gtk.Label = Gtk.Template.Child()
     mod_caption: Gtk.Label = Gtk.Template.Child()
+    stack: Gtk.Stack = Gtk.Template.Child()
 
     def __init__(self, submission: SubmissionInfo):
         super().__init__(css_classes=["flat"])
@@ -127,4 +128,5 @@ class SubmissionButton(Gtk.Button):
         self.connect("clicked", generic_clicked, self)
 
     def __on_down_finish(self, cover):
-        GLib.idle_add(self.mod_cover.set_filename, cover)
+        idle(self.stack.set_visible_child_name, "main")
+        idle(self.mod_cover.set_filename, cover)

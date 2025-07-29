@@ -7,7 +7,6 @@ template $SubmissionButton: Button {
   clicked => $on_clicked();
 
   child: Adw.Clamp {
-    // maximum-size: 100;
     child: Box {
       valign: center;
       halign: center;
@@ -17,18 +16,28 @@ template $SubmissionButton: Button {
       styles [
         "b",
       ]
+      Stack stack {
+        StackPage {
+          child: Adw.Spinner {
+            height-request: 14;
+            width-request: 14;
+          };
+        }
+        StackPage {
+          name: "main";
+          child: Frame {
+            vexpand: true;
+            hexpand: true;
 
-      Frame {
-        vexpand: true;
-        hexpand: true;
-
-        child: Picture mod_cover {
-          width-request: 180;
-          height-request: 120;
-          content-fit: cover;
-          valign: fill;
-          halign: center;
-        };
+            child: Picture mod_cover {
+              width-request: 180;
+              height-request: 120;
+              content-fit: cover;
+              valign: fill;
+              halign: center;
+            };
+          };
+        }
       }
 
       Box {
