@@ -28,6 +28,7 @@ class Table(Gtk.TextTagTable):
                 underline_rgba=accent,
             ),
             "i": Gtk.TextTag(name="i", style=Pango.Style.ITALIC),
+            "em": Gtk.TextTag(name="em", style=Pango.Style.ITALIC),
             "li": Gtk.TextTag(name="li", indent=4),
             "h1": Gtk.TextTag(
                 name="h1",
@@ -63,7 +64,7 @@ def sanitaze_html(html: str) -> str:
     return html.replace("&nbsp;", "").replace("&", "&amp;")
 
 
-def parse(txt: str):
+def parse(txt: str, logger):
     txt = txt.replace("&nbsp;", "")
     table = Table()
     buff = Gtk.TextBuffer.new(table)
@@ -80,9 +81,6 @@ def parse(txt: str):
         if elem.name == "h1":
             text = text + "\n"
 
-        if elem.name == "hr":
-            continue
-
         if elem.name == "ul":
             for x in elem.children:
                 buff.insert_with_tags_by_name(
@@ -95,7 +93,7 @@ def parse(txt: str):
             continue
 
         if elem.name not in table.tags:
-            logging.warning(f"tag not supported: {elem.name}")
+            logger.warning(f"tag not supported: {elem.name}")
             buff.insert_at_cursor(text)
             continue
 

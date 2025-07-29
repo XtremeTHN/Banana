@@ -1,4 +1,4 @@
-from gi.repository import Gtk, Adw, Pango, GLib
+from gi.repository import Gtk, Adw
 
 from banana.ui.screenshot import Screenshot
 from banana.modules.cache import cache_download
@@ -7,6 +7,8 @@ from .download import SubmissionDownloadDialog
 from banana.modules.gamebanana import Gamebanana
 from banana.modules.gamebanana.types import SubmissionInfo
 from .utils import populate_credits, populate_updates, parse
+
+import logging
 
 
 @Blueprint("mod-page")
@@ -41,6 +43,7 @@ class ModPage(Adw.NavigationPage):
 
         self.mod_id = mod_id
         self.info: SubmissionInfo = None
+        self.logger = logging.getLogger(f"ModPage({self.mod_id})")
 
         # TODO: if this converts into a gamebanana general client, change this to the type of the submission id
         Gamebanana.get_submission_info("Mod", mod_id, self.populate)
@@ -85,6 +88,6 @@ class ModPage(Adw.NavigationPage):
             return
 
         self.info = submission
-        self.mod_description.set_buffer(parse(submission["_sText"]))
+        self.mod_description.set_buffer(parse(submission["_sText"], self.logger))
         if (n := submission["_aPreviewMedia"].get("_aImages")) is not None:
             cache_download(*[f"{x['_sBaseUrl']}/{x['_sFile']}" for x in n], cb=finish)

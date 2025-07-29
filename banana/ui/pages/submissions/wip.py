@@ -6,6 +6,7 @@ from banana.modules.cache import cache_download
 from banana.modules.gamebanana import Gamebanana
 from banana.modules.gamebanana.types import SubmissionWip
 from .utils import populate_credits, populate_updates, parse
+import logging
 
 
 @Blueprint("wip-page")
@@ -40,6 +41,7 @@ class WipPage(Adw.NavigationPage):
         spinner.set_widget(self.loading_status)
 
         self.wip_id = mod_id
+        self.logger = logging.getLogger(f"ModPage({self.mod_id})")
 
         # TODO: if this converts into a gamebanana general client, change this to the type of the submission id
         Gamebanana.get_submission_info("Wip", mod_id, self.populate)
@@ -71,6 +73,6 @@ class WipPage(Adw.NavigationPage):
             idle(self.stack.set_visible_child_name, "main")
 
         self.set_title(submission["_sName"] + " - Work in progress")
-        self.wip_description.set_buffer(parse(submission["_sText"]))
+        self.wip_description.set_buffer(parse(submission["_sText"], self.logger))
         if (n := submission["_aPreviewMedia"].get("_aImages")) is not None:
             cache_download(*[f"{x['_sBaseUrl']}/{x['_sFile']}" for x in n], cb=finish)
