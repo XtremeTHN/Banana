@@ -17,13 +17,13 @@ class UnsupportedSubmission(Exception):
 def generic_clicked(_, obj):
     page = None
     if obj.type == "Mod":
-        page = ModPage(obj.mod_id)
+        page = ModPage(obj.submission_id)
     elif obj.type == "Wip":
-        page = WipPage(obj.mod_id)
+        page = WipPage(obj.submission_id)
 
     if page is None:
         raise UnsupportedSubmission(
-            f'Currently "{obj.type}" submissions are not supported'
+            f'Currently "{obj.type}" submissions are not supported. Submission id: {obj.submission_id}'
         )
 
     Navigation().get_default().navigation.push(page)
@@ -64,7 +64,7 @@ class TopSubmission(Gtk.Overlay):
 
     def __init__(self, submission: Submission):
         super().__init__()
-        self.mod_id = submission["_idRow"]
+        self.submission_id = submission["_idRow"]
         self.type = submission["_sModelName"]
 
         event = Gtk.EventControllerMotion.new()
@@ -115,7 +115,7 @@ class SubmissionButton(Gtk.Button):
 
     def __init__(self, submission: SubmissionInfo):
         super().__init__(css_classes=["flat"])
-        self.mod_id = submission["_idRow"]
+        self.submission_id = submission["_idRow"]
         self.type = submission["_sModelName"]
 
         preview = submission["_aPreviewMedia"]
