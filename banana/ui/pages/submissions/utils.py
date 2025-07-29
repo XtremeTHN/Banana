@@ -1,7 +1,7 @@
 from gi.repository import Adw, Gtk, Pango
 from banana.modules.gamebanana import Gamebanana
 from bs4 import BeautifulSoup
-from banana.modules.utils import idle, idle_wrap
+from banana.modules.utils import idle
 import re
 
 
@@ -86,25 +86,36 @@ def parse(txt: str):
 
 
 def populate_credits(box, array_credits):
-    if len(array_credits) > 0:
-        for _type in array_credits:
-            exp = Adw.ExpanderRow(title=_type["_sGroupName"])
-            for author in _type["_aAuthors"]:
-                exp.add_row(
-                    Adw.ActionRow(
-                        use_markup=False,
-                        css_classes=["property"],
-                        title=author.get("_sRole", "Unkown role"),
-                        subtitle=author.get("_sName", "Unkown author"),
-                    )
+    if len(array_credits) == 0:
+        idle(box.append, Adw.ActionRow(title="No credits"))
+        return
+
+    for _type in array_credits:
+        authors = _type["_aAuthors"]
+        if len(authors) == 0:
+            row = Adw.ActionRow(title=_type["_sGroupName"], use_markup=False)
+        else:
+            row = Adw.ExpanderRow(title=_type["_sGroupName"], use_markup=False)
+
+        for author in _type["_aAuthors"]:
+            row.add_row(
+                Adw.ActionRow(
+                    use_markup=False,
+                    css_classes=["property"],
+                    title=author.get("_sRole", "Unkown role"),
+                    subtitle=author.get("_sName", "Unkown author"),
                 )
-            idle(box.append, exp)
+            )
+        idle(box.append, row)
 
 
 def populate_updates(box: Gtk.ListBox, submission_type: str, submission_id: str):
     updates = Gamebanana.get_submission_updates(submission_type, submission_id)
     # TODO: refactor this, it looks ugly
     for records in updates:
+        if len(records) == 0:
+            box.append(Adw.ActionRow(title="No updates"))
+            break
         for update in records:
             subtitle = sanitaze_html(update["_sText"])
             exp = Adw.ExpanderRow(
