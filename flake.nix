@@ -8,6 +8,7 @@
       rich
       requests
       pygobject3
+      beautifulsoup4
       pygobject-stubs
     ]));
 

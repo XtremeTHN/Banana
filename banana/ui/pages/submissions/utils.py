@@ -1,10 +1,44 @@
-from gi.repository import Adw, Gtk
+from gi.repository import Adw, Gtk, Pango
 from banana.modules.gamebanana import Gamebanana
-from banana.modules.utils import idle  # TODO: rename src folder to banana
+from bs4 import BeautifulSoup
+from banana.modules.utils import idle, idle_wrap
 import re
 
 
-# TODO: Maybe write a rich text viewer insted of deleting html tags
+class Table(Gtk.TextTagTable):
+    def __init__(self):
+        super().__init__()
+        accent = Adw.accent_color_to_rgba(
+            Adw.StyleManager.get_default().get_accent_color()
+        )
+
+        self.tags = {
+            "b": Gtk.TextTag(name="b", weight=500),
+            "u": Gtk.TextTag(
+                name="u",
+                underline=Pango.Underline.SINGLE,
+            ),
+            "a": Gtk.TextTag(
+                name="a",
+                weight=500,
+                foreground_rgba=accent,
+                underline=Pango.Underline.SINGLE,
+                underline_rgba=accent,
+            ),
+            "h1": Gtk.TextTag(
+                name="h1",
+                scale=1.4,
+                weight=800,
+            ),
+            "span": Gtk.TextTag(
+                name="span",
+            ),
+        }
+
+        for _, x in self.tags.items():
+            self.add(x)
+
+
 def sanitaze_html(html: str) -> str:
     # Replace <br> and <p> with newlines
     html = re.sub(r"<br\s*/?>", "\n", html)
@@ -20,6 +54,41 @@ def sanitaze_html(html: str) -> str:
     html = re.sub(r"<.*?>", "", html)
 
     return html.replace("&nbsp;", "").replace("&", "&amp;")
+
+
+def parse(txt: str):
+    txt = txt.replace("&nbsp;", "")
+    table = Table()
+    buff = Gtk.TextBuffer.new(table)
+    soup = BeautifulSoup(txt, "html.parser")
+
+    for elem in soup:
+        mark = buff.get_insert()
+        text = elem.text
+
+        if elem.name == "br":
+            buff.insert_at_cursor("\n", 1)
+            continue
+
+        if elem.name == "h1":
+            text = text + "\n"
+
+        if elem.name is None:
+            buff.insert_at_cursor(text)
+            continue
+
+        if elem.name in table.tags:
+            buff.insert_with_tags_by_name(buff.get_iter_at_mark(mark), text, elem.name)
+        else:
+            print("tag not supported:", elem.name)
+
+    print(
+        len(buff.get_text(buff.get_start_iter(), buff.get_end_iter(), True)),
+        buff.props.cursor_position,
+    )
+    # buff.get_iter_at_mark(buff.get_insert())
+    # buff.get_end_iter()
+    return buff
 
 
 def populate_credits(box, array_credits):
