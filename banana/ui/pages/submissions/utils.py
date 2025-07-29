@@ -14,6 +14,7 @@ class Table(Gtk.TextTagTable):
 
         self.tags = {
             "b": Gtk.TextTag(name="b", weight=500),
+            "strong": Gtk.TextTag(name="strong", weight=500),
             "u": Gtk.TextTag(
                 name="u",
                 underline=Pango.Underline.SINGLE,
