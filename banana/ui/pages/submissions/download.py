@@ -46,20 +46,26 @@ class FileRow(Adw.ActionRow):
         self.is_alt = bool(file.get("url"))
 
     def __on_save_finish(self, dialog: Gtk.FileDialog, result):
-        f = dialog.save_finish(result)  # TODO: add handler if the dialog is dismissed
+        try:
+            f = dialog.save_finish(result)
+            item = DownloadItem(self.submission_name, f.get_path(), self.info)
+            DownloadsPage.get_default().append_download(item)
 
-        item = DownloadItem(self.submission_name, f.get_path(), self.info)
-        DownloadsPage.get_default().append_download(item)
-
-        self._notify(f"Downloading {self.info['_sFile']}...")
+            self._notify(f"Downloading {self.info['_sFile']}...")
+        except GLib.GError:
+            return
+        finally:
+            self.set_sensitive(True)
 
     def __download(self, _):
+        self.set_sensitive(False)
         name = self.info["_sFile"]
+
         diag = Gtk.FileDialog(
             title=f"Save {name}",
             initial_name=name,
-            initial_folder=GLib.get_user_special_dir(
-                GLib.UserDirectory.DIRECTORY_DOWNLOAD
+            initial_folder=Gio.File.new_for_path(
+                GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_DOWNLOAD)
             ),
         )
         diag.save(self.get_root(), None, self.__on_save_finish)
