@@ -70,14 +70,10 @@ class ModPage(Adw.NavigationPage):
             idle(self.views.set_label, f"{submission['_nViewCount']:,}")
             idle(self.downloads.set_label, f"{submission['_nDownloadCount']:,}")
 
-            # idle(self.mod_description.set_label, sanitaze_html(submission["_sText"]))
-
             populate_updates(self.updates_box, "Mod", self.mod_id)
             populate_credits(self.credits_box, submission["_aCredits"])
 
             idle(self.stack.set_visible_child_name, "main")
-
-            # idle(self.mod_description.set_vscroll_policy, Gtk.ScrollablePolicy.NATURAL)
 
         self.set_title(submission["_sName"] + " - Mod")
 

@@ -16,7 +16,6 @@ class WipPage(Adw.NavigationPage):
     wip_title: Gtk.Label = Gtk.Template.Child()
     wip_caption: Gtk.Label = Gtk.Template.Child()
     wip_description: Gtk.TextView = Gtk.Template.Child()
-    wip_desc_buffer: Gtk.TextBuffer = Gtk.Template.Child()
 
     completed: Gtk.LevelBar = Gtk.Template.Child()
     completed_label: Gtk.Label = Gtk.Template.Child()
@@ -60,8 +59,6 @@ class WipPage(Adw.NavigationPage):
             idle(self.likes.set_label, f"{submission['_nLikeCount']:,}")
             idle(self.views.set_label, f"{submission['_nViewCount']:,}")
 
-            # idle(self.wip_description.set_label, sanitaze_html(submission["_sText"]))
-
             idle(
                 self.completed_label.set_label,
                 f"{submission['_sDevelopmentState']} - {submission['_iCompletionPercentage']}% completed",
@@ -71,9 +68,9 @@ class WipPage(Adw.NavigationPage):
             populate_updates(self.updates_box, "Wip", self.wip_id)
             populate_credits(self.credits_box, submission["_aCredits"])
 
-            parse(submission["_sText"], self.wip_desc_buffer)
             idle(self.stack.set_visible_child_name, "main")
 
         self.set_title(submission["_sName"] + " - Work in progress")
+        self.wip_description.set_buffer(parse(submission["_sText"]))
         if (n := submission["_aPreviewMedia"].get("_aImages")) is not None:
             cache_download(*[f"{x['_sBaseUrl']}/{x['_sFile']}" for x in n], cb=finish)

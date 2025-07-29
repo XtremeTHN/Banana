@@ -82,12 +82,6 @@ def parse(txt: str):
         else:
             print("tag not supported:", elem.name)
 
-    print(
-        len(buff.get_text(buff.get_start_iter(), buff.get_end_iter(), True)),
-        buff.props.cursor_position,
-    )
-    # buff.get_iter_at_mark(buff.get_insert())
-    # buff.get_end_iter()
     return buff
 
 

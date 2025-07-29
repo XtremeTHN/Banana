@@ -152,37 +152,17 @@ template $WipPage: Adw.NavigationPage {
                 LevelBar completed {}
               }
 
-              TextView wip_description {
-                styles ["no-background"]
-                editable: false;
-                wrap-mode: word_char;
-                vscroll-policy: natural;
-                height-request: 0;
+              ScrolledWindow {
+                vscrollbar-policy: never;
+                hscrollbar-policy: automatic;
+                child: TextView wip_description {
+                  styles [
+                    "no-background",
+                  ]
 
-                buffer: TextBuffer wip_desc_buffer {
-                  tag-table: TextTagTable {
-                    [tag]
-                    TextTag {
-                      name: "b";
-                      weight: 600;
-                    }
-
-                    [tag]
-                    TextTag {
-                      name: "a";
-                      weight: 200;
-                      foreground: "cyan";
-                      underline: single;
-                      underline-rgba: "cyan";
-                    }
-
-                    [tag]
-                    TextTag {
-                      name: "h1";
-                      scale: 1.4;
-                      weight: 800;
-                    }
-                  };
+                  editable: false;
+                  wrap-mode: word;
+                  input-purpose: alpha;
                 };
               }
 

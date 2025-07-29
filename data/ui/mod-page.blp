@@ -169,13 +169,18 @@ template $ModPage: Adw.NavigationPage {
                 }
               }
 
-              TextView mod_description {
-                styles [
-                  "no-background",
-                ]
+              ScrolledWindow {
+                vscrollbar-policy: never;
+                hscrollbar-policy: automatic;
+                child: TextView mod_description {
+                  styles [
+                    "no-background",
+                  ]
 
-                editable: false;
-                input-purpose: alpha;
+                  editable: false;
+                  wrap-mode: word;
+                  input-purpose: alpha;
+                };
               }
 
               Adw.Carousel screenshots_carousel {
