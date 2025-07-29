@@ -33,7 +33,10 @@ class Application(Adw.Application):
             exc_type = exc_type.exc_type
 
         self.old_hook(exc_type, exc_value, exc_traceback)
-        self.present_err_diag(exc_type.__name__, " ".join(exc_value.args))
+        try:
+            self.present_err_diag(exc_type.__name__, " ".join(exc_value.args))
+        except Exception:
+            print("error while trying to show exception in the window")
 
     def present_err_diag(self, title, body):
         diag = Adw.AlertDialog.new(
