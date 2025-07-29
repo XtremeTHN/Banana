@@ -94,13 +94,12 @@ def parse(txt: str):
             buff.insert_at_cursor(text)
             continue
 
-        if elem.name in table.tags:
-            buff.insert_with_tags_by_name(buff.get_iter_at_mark(mark), text, elem.name)
-        else:
-            logging.warning("tag not supported:", elem.name)
-            logging.info(
-                "Report this to the github repo if this error affects the text view"
-            )
+        if elem.name not in table.tags:
+            logging.warning(f"tag not supported: {elem.name}")
+            buff.insert_at_cursor(text)
+            continue
+
+        buff.insert_with_tags_by_name(buff.get_iter_at_mark(mark), text, elem.name)
 
     return buff
 
