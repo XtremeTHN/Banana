@@ -25,11 +25,16 @@ class Table(Gtk.TextTagTable):
                 underline=Pango.Underline.SINGLE,
                 underline_rgba=accent,
             ),
+            "i": Gtk.TextTag(name="i", style=Pango.Style.ITALIC),
+            "li": Gtk.TextTag(name="li", indent=4),
             "h1": Gtk.TextTag(
                 name="h1",
-                scale=1.4,
+                scale=1.6,
                 weight=800,
             ),
+            "h2": Gtk.TextTag(name="h2", scale=1.4, weight=800),
+            "h3": Gtk.TextTag(name="h3", scale=1.2, weight=800),
+            "h4": Gtk.TextTag(name="h4", scale=1, weight=800),
             "span": Gtk.TextTag(
                 name="span",
             ),
@@ -67,11 +72,21 @@ def parse(txt: str):
         text = elem.text
 
         if elem.name == "br":
-            buff.insert_at_cursor("\n", 1)
+            buff.insert_at_cursor("\n")
             continue
 
         if elem.name == "h1":
             text = text + "\n"
+
+        if elem.name == "hr":
+            continue
+
+        if elem.name == "ul":
+            for x in elem.children:
+                buff.insert_with_tags_by_name(
+                    buff.get_iter_at_mark(mark), f"- {x.text}\n", "li"
+                )
+            continue
 
         if elem.name is None:
             buff.insert_at_cursor(text)
@@ -81,6 +96,7 @@ def parse(txt: str):
             buff.insert_with_tags_by_name(buff.get_iter_at_mark(mark), text, elem.name)
         else:
             print("tag not supported:", elem.name)
+            print(elem)
 
     return buff
 
