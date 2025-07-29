@@ -34,7 +34,7 @@ template $ModPage: Adw.NavigationPage {
       StackPage {
         name: "main";
 
-        child: ScrolledWindow scroll {
+        child: ScrolledWindow {
           child: Adw.Clamp {
             orientation: horizontal;
             maximum-size: 900;
@@ -54,7 +54,7 @@ template $ModPage: Adw.NavigationPage {
                     height-request: 200;
 
                     [overlay]
-                    Picture mod_icon {
+                    Picture submission_icon {
                       content-fit: cover;
                     }
                   };
@@ -69,7 +69,7 @@ template $ModPage: Adw.NavigationPage {
                   Box {
                     orientation: vertical;
 
-                    Label mod_title {
+                    Label submission_title {
                       styles [
                         "title-1",
                       ]
@@ -78,7 +78,7 @@ template $ModPage: Adw.NavigationPage {
                       wrap: true;
                     }
 
-                    Label mod_caption {
+                    Label submission_caption {
                       styles [
                         "caption",
                       ]
@@ -172,7 +172,7 @@ template $ModPage: Adw.NavigationPage {
               ScrolledWindow {
                 vscrollbar-policy: never;
                 hscrollbar-policy: automatic;
-                child: TextView mod_description {
+                child: TextView submission_description {
                   styles [
                     "no-background",
                   ]
@@ -210,7 +210,7 @@ template $ModPage: Adw.NavigationPage {
                   label: _("Updates");
                 }
 
-                ListBox updates_box {
+                ListBox submission_updates_box {
                   styles [
                     "boxed-list",
                   ]
@@ -227,7 +227,7 @@ template $ModPage: Adw.NavigationPage {
                   label: _("Credits");
                 }
 
-                ListBox credits_box {
+                ListBox submission_credits_box {
                   styles [
                     "boxed-list",
                   ]
