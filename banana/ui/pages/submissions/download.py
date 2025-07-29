@@ -5,7 +5,7 @@ from banana.modules.gamebanana.types import (
 from banana.modules.utils import Blueprint
 from ..downloads import DownloadsPage, DownloadItem
 
-from gi.repository import Gtk, Adw, Gio
+from gi.repository import Gtk, Adw, Gio, GLib
 
 
 class AltFileRow(Adw.ActionRow):
@@ -55,7 +55,13 @@ class FileRow(Adw.ActionRow):
 
     def __download(self, _):
         name = self.info["_sFile"]
-        diag = Gtk.FileDialog(title=f"Save {name}", initial_name=name)
+        diag = Gtk.FileDialog(
+            title=f"Save {name}",
+            initial_name=name,
+            initial_folder=GLib.get_user_special_dir(
+                GLib.UserDirectory.DIRECTORY_DOWNLOAD
+            ),
+        )
         diag.save(self.get_root(), None, self.__on_save_finish)
 
 
