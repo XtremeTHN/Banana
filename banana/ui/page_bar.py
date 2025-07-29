@@ -13,12 +13,12 @@ class PageBar(Gtk.Box):
     page_counter: Gtk.Label = Gtk.Template.Child()
     next_btt: Gtk.Button = Gtk.Template.Child()
 
-    def __init__(self, parent_name=None):
+    def __init__(self):
         super().__init__()
         self.func_cb = None
         self.func = None
         self.current_page = 1
-        self.logger = logging.getLogger(f"PageBar({parent_name})")
+        self.logger = logging.getLogger("PageBar")
 
     def set_page(self, page):
         self.page_counter.set_label(page)
@@ -39,7 +39,6 @@ class PageBar(Gtk.Box):
         idle(self.page_counter.set_label, str(page))
 
         self.current_page = page
-        self.logger.info("Changed current page to %i", page)
 
     def set_banana_func(self, gamebanana_func, func_cb):
         self.func_cb = func_cb
