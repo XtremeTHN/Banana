@@ -35,8 +35,6 @@ class FileRow(Adw.ActionRow):
         super().__init__(
             title=file["_sFile"],
             subtitle=file.get("_sDescription"),
-            title_selectable=True,
-            subtitle_selectable=True,
             activatable=True,
         )
         self.connect("activated", self.__download)
