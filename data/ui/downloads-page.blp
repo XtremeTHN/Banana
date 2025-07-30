@@ -10,6 +10,7 @@ template $DownloadsPage: Adw.NavigationPage {
     Adw.HeaderBar {
       [end]
       Button stop_all_btt {
+        clicked => $on_stop_all_clicked();
         child: Adw.ButtonContent {
           label: _("Stop all");
           icon-name: "media-playback-stop-symbolic";

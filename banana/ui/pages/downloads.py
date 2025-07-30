@@ -141,6 +141,11 @@ class DownloadsPage(Adw.NavigationPage):
             "placeholder" if len(self.active_downloads.items) == 0 else "main"
         )
 
+    @Gtk.Template.Callback()
+    def on_stop_all_clicked(self, _):
+        for x in self.active_downloads.items:
+            x.stop_download(None)
+
     def on_finish(self, item):
         self.active_downloads.remove(item)
         self.active_box.remove(item)
