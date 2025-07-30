@@ -82,6 +82,8 @@ class HtmlView(Gtk.TextView):
         self.add_controller(motion_controller)
 
         self.set_wrap_mode(Gtk.WrapMode.WORD)
+        self.set_cursor_visible(False)
+        self.set_editable(False)
         self.set_css_classes([])
 
     def set_submission_id(self, id):
