@@ -30,6 +30,12 @@ class Table(Gtk.TextTagTable):
                 scale=1.6,
                 weight=800,
             ),
+            "code": Gtk.TextTag(
+                name="code",
+                scale=0.8,
+                weight=600,
+                family="Monospace",
+            ),
             "h2": Gtk.TextTag(name="h2", scale=1.4, weight=800),
             "h3": Gtk.TextTag(name="h3", scale=1.2, weight=800),
             "h4": Gtk.TextTag(name="h4", scale=1, weight=800),
