@@ -1,10 +1,9 @@
 from banana.modules.gamebanana.types import (
     SubmissionInfoFileSource,
-    SubmissionInfoAltFileSource,
 )
 
 from banana.modules.utils import Blueprint, List, idle, idle_wrap
-from gi.repository import Gtk, Adw, Gio, GLib, GObject
+from gi.repository import Gtk, Adw, Gio, GLib
 
 import urllib.parse
 import threading
