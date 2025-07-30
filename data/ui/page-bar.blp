@@ -1,28 +1,39 @@
 using Gtk 4.0;
 
-template $PageBar: Box {
+template $PageBar: CenterBox {
   margin-top: 5;
   margin-bottom: 5;
-  halign: center;
-  spacing: 10;
 
-  Button prev_btt {
-    styles [
-      "circular",
-    ]
+  center-widget: Box {
+    spacing: 10;
+    Button prev_btt {
+      styles [
+        "circular",
+      ]
 
-    icon-name: "go-previous-symbolic";
-    clicked => $previous_page();
-  }
+      icon-name: "go-previous-symbolic";
+      clicked => $previous_page();
+    }
 
-  Label page_counter {}
+    Label page_counter {}
 
-  Button next_btt {
-    styles [
-      "circular",
-    ]
+    Button next_btt {
+      styles [
+        "circular",
+      ]
 
-    icon-name: "go-next-symbolic";
-    clicked => $next_page();
-  }
+      icon-name: "go-next-symbolic";
+      clicked => $next_page();
+    }
+  };
+
+  end-widget: DropDown sort_type_dropdown {
+    model: StringList {
+      strings [
+        "Default",
+        "New",
+        "Updated"
+      ]
+    };
+  };
 }

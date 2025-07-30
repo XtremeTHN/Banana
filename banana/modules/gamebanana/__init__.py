@@ -97,11 +97,13 @@ class Gamebanana:
         get(f"{GB_API}/Game/{GAME_ID}/TopSubs", callback)
 
     @staticmethod
-    def get_featured_submissions(cb: Callable[[FeaturedSubmissions], None], page=1):
+    def get_featured_submissions(
+        cb: Callable[[FeaturedSubmissions], None], sort: SortType = "default", page=1
+    ):
         """
         Fetches the featured submissions for a specific game and page from the GameBanana API.
         """
         get(
-            f"{GB_API}/Util/List/Featured?_nPage={page}&_idGameRow={GAME_ID}",
+            f"{GB_API}/Util/List/Featured?_nPage={page}&_idGameRow={GAME_ID}&_sSort={sort}",
             lambda x: cb(x, page),
         )

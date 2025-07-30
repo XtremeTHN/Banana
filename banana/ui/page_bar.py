@@ -6,12 +6,14 @@ import logging
 
 
 @Blueprint("page-bar")
-class PageBar(Gtk.Box):
+class PageBar(Gtk.CenterBox):
     __gtype_name__ = "PageBar"
 
     prev_btt: Gtk.Button = Gtk.Template.Child()
     page_counter: Gtk.Label = Gtk.Template.Child()
     next_btt: Gtk.Button = Gtk.Template.Child()
+
+    sort_type_dropdown: Gtk.DropDown = Gtk.Template.Child()
 
     def __init__(self):
         super().__init__()
@@ -19,6 +21,15 @@ class PageBar(Gtk.Box):
         self.func = None
         self.current_page = 1
         self.logger = logging.getLogger("PageBar")
+
+        self.sort_type_dropdown.connect("notify::selected-item", self.__on_sort_changed)
+
+    def __on_sort_changed(self, *_):
+        self.func(
+            self.func_cb,
+            sort=self.sort_type_dropdown.get_selected_item().get_string().lower(),
+            page=self.current_page,
+        )
 
     def set_page(self, page):
         self.page_counter.set_label(page)
@@ -46,12 +57,8 @@ class PageBar(Gtk.Box):
 
     @Gtk.Template.Callback()
     def previous_page(self, _):
-        self.func(self.func_cb, self.current_page - 1)
+        self.func(self.func_cb, page=self.current_page - 1)
 
     @Gtk.Template.Callback()
     def next_page(self, _):
-        self.func(self.func_cb, self.current_page + 1)
-
-    # def connect_functions(self, previous, next):
-    #     self.prev_btt.connect("clicked", previous)
-    #     self.next_btt.connect("clicked", next)
+        self.func(self.func_cb, page=self.current_page + 1)

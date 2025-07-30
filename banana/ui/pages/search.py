@@ -20,14 +20,17 @@ class SearchPage(Adw.Bin):
     def __init__(self):
         super().__init__()
         self.__search_entry = None
+        self.__sort_dropdown = None
         self.page_bar.set_banana_func(self.__request_page, self.__handle_query)
 
         spinner = Adw.SpinnerPaintable.new()
         spinner.set_widget(self.loading_page)
         self.loading_page.set_paintable(spinner)
 
-    def __request_page(self, cb, page):
-        Gamebanana.query_submissions(self.search_entry.get_text(), cb, page=page)
+    def __request_page(self, cb, sort, page):
+        Gamebanana.query_submissions(
+            self.search_entry.get_text(), cb, sort=sort, page=page
+        )
 
     @GObject.Property(nick="search-entry", type=Gtk.Widget)
     def search_entry(self):
@@ -37,6 +40,15 @@ class SearchPage(Adw.Bin):
     def search_entry(self, entry):
         self.__search_entry = entry
         entry.connect("search-changed", self.search)
+
+    @GObject.Property(nick="sort-dropdown", type=Gtk.Widget)
+    def sort_dropdown(self):
+        return self.__sort_dropdown
+
+    @sort_dropdown.setter
+    def sort_dropdown(self, dropdown):
+        self.__sort_dropdown = dropdown
+        dropdown.connect("notify::selected-item", self.change_sort)
 
     def populate(self, submissions: list[QuerySubmission]):
         GLib.idle_add(self.mods.remove_all)
@@ -67,3 +79,13 @@ class SearchPage(Adw.Bin):
             return
 
         Gamebanana.query_submissions(query, self.__handle_query)
+
+    def change_sort(self, *_):
+        sort = self.sort_dropdown.props.selected_item.get_string()
+
+        Gamebanana.query_submissions(
+            self.search_entry.get_text().strip(),
+            self.__handle_query,
+            sort=sort.lower(),
+            page=self.page_bar.current_page,
+        )
