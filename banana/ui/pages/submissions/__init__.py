@@ -11,47 +11,6 @@ import logging
 import re
 
 
-class Table(Gtk.TextTagTable):
-    def __init__(self):
-        super().__init__()
-        accent = Adw.accent_color_to_rgba(
-            Adw.StyleManager.get_default().get_accent_color()
-        )
-
-        self.tags = {
-            "b": Gtk.TextTag(name="b", weight=700),
-            "strong": Gtk.TextTag(name="strong", weight=700),
-            "u": Gtk.TextTag(
-                name="u",
-                underline=Pango.Underline.SINGLE,
-            ),
-            "a": Gtk.TextTag(
-                name="a",
-                weight=500,
-                foreground_rgba=accent,
-                underline=Pango.Underline.SINGLE,
-                underline_rgba=accent,
-            ),
-            "i": Gtk.TextTag(name="i", style=Pango.Style.ITALIC),
-            "em": Gtk.TextTag(name="em", style=Pango.Style.ITALIC),
-            "li": Gtk.TextTag(name="li", indent=4),
-            "h1": Gtk.TextTag(
-                name="h1",
-                scale=1.6,
-                weight=800,
-            ),
-            "h2": Gtk.TextTag(name="h2", scale=1.4, weight=800),
-            "h3": Gtk.TextTag(name="h3", scale=1.2, weight=800),
-            "h4": Gtk.TextTag(name="h4", scale=1, weight=800),
-            "span": Gtk.TextTag(
-                name="span",
-            ),
-        }
-
-        for _, x in self.tags.items():
-            self.add(x)
-
-
 class SubmissionPage:
     submission_credits_box: Gtk.ListBox
     submission_updates_box: Gtk.ListBox
@@ -104,8 +63,6 @@ class SubmissionPage:
         self.logger = logging.getLogger(f"{self.__class__.__name__}({submission_id})")
         self.submission_description.set_submission_id(submission_id)
         self.submission_id = submission_id
-
-        self._table = Table()
 
         spinner = Adw.SpinnerPaintable.new()
         self.loading_status.set_paintable(spinner)
