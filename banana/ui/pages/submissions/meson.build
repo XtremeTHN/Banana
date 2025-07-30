@@ -4,6 +4,7 @@ modules_sources = [
     '__init__.py',
     'mod.py',
     'wip.py',
+    'html.py',
     'download.py'
 ]
 

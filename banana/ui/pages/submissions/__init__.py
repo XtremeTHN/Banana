@@ -5,7 +5,8 @@ from banana.modules.gamebanana import Gamebanana
 from banana.modules.cache import cache_download
 from banana.ui.screenshot import Screenshot
 from banana.modules.utils import idle
-from bs4 import BeautifulSoup
+from .html import HtmlView
+
 import logging
 import re
 
@@ -58,7 +59,7 @@ class SubmissionPage:
     submission_icon: Gtk.Picture
     submission_title: Gtk.Label
     submission_caption: Gtk.Label
-    submission_description: Gtk.TextView
+    submission_description: HtmlView
 
     stack: Gtk.Stack
     screenshots_carousel: Adw.Carousel
@@ -103,6 +104,8 @@ class SubmissionPage:
         self.logger = logging.getLogger(f"{self.__class__.__name__}({submission_id})")
         self.submission_id = submission_id
 
+        self._table = Table()
+
         spinner = Adw.SpinnerPaintable.new()
         self.loading_status.set_paintable(spinner)
         spinner.set_widget(self.loading_status)
@@ -117,43 +120,6 @@ class SubmissionPage:
         html = re.sub(r"<.*?>", "", html)
 
         return html.replace("&nbsp;", "").replace("&", "&amp;")
-
-    def get_formatted_html(self, html: str):
-        html = html.replace("&nbsp;", "")
-        table = Table()
-        buff = Gtk.TextBuffer.new(table)
-        soup = BeautifulSoup(html, "html.parser")
-
-        for elem in soup:
-            mark = buff.get_insert()
-            text = elem.text
-
-            if elem.name == "br":
-                buff.insert_at_cursor("\n")
-                continue
-
-            if elem.name == "h1":
-                text = text + "\n"
-
-            if elem.name == "ul":
-                for x in elem.children:
-                    buff.insert_with_tags_by_name(
-                        buff.get_iter_at_mark(mark), f"- {x.text}\n", "li"
-                    )
-                continue
-
-            if elem.name is None:
-                buff.insert_at_cursor(text)
-                continue
-
-            if elem.name not in table.tags:
-                self.logger.warning(f"tag not supported: {elem.name}")
-                buff.insert_at_cursor(text)
-                continue
-
-            buff.insert_with_tags_by_name(buff.get_iter_at_mark(mark), text, elem.name)
-
-        return buff
 
     def populate_extra_widgets(self, submission: SubmissionInfo):
         """override this function pls"""
@@ -195,9 +161,8 @@ class SubmissionPage:
             return
 
         self.info = submission
-        self.submission_description.set_buffer(
-            self.get_formatted_html(submission["_sText"])
-        )
+
+        self.submission_description.html = submission["_sText"]
         if (n := submission["_aPreviewMedia"].get("_aImages")) is not None:
             cache_download(*[f"{x['_sBaseUrl']}/{x['_sFile']}" for x in n], cb=finish)
             return

@@ -2,8 +2,8 @@ from gi.repository import Gtk, Adw
 
 from banana.modules.utils import Blueprint
 from .download import SubmissionDownloadDialog
-from banana.modules.gamebanana import Gamebanana
-from . import SubmissionPage
+
+from . import SubmissionPage, HtmlView
 
 
 @Blueprint("mod-page")
@@ -13,7 +13,7 @@ class ModPage(Adw.NavigationPage, SubmissionPage):
     submission_icon: Gtk.Picture = Gtk.Template.Child()
     submission_title: Gtk.Label = Gtk.Template.Child()
     submission_caption: Gtk.Label = Gtk.Template.Child()
-    submission_description: Gtk.TextView = Gtk.Template.Child()
+    submission_description: HtmlView = Gtk.Template.Child()
 
     stack: Gtk.Stack = Gtk.Template.Child()
     screenshots_carousel: Adw.Carousel = Gtk.Template.Child()

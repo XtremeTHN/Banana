@@ -2,7 +2,7 @@ from gi.repository import Gtk, Adw
 
 from banana.modules.utils import Blueprint, idle
 
-from . import SubmissionPage
+from . import SubmissionPage, HtmlView
 
 
 @Blueprint("wip-page")
@@ -12,7 +12,7 @@ class WipPage(Adw.NavigationPage, SubmissionPage):
     submission_icon: Gtk.Picture = Gtk.Template.Child()
     submission_title: Gtk.Label = Gtk.Template.Child()
     submission_caption: Gtk.Label = Gtk.Template.Child()
-    submission_description: Gtk.TextView = Gtk.Template.Child()
+    submission_description: HtmlView = Gtk.Template.Child()
 
     completed: Gtk.LevelBar = Gtk.Template.Child()
     completed_label: Gtk.Label = Gtk.Template.Child()

@@ -155,16 +155,7 @@ template $WipPage: Adw.NavigationPage {
               ScrolledWindow {
                 vscrollbar-policy: never;
                 hscrollbar-policy: automatic;
-                child: TextView submission_description {
-                  styles [
-                    "no-background",
-                  ]
-
-                  editable: false;
-                  wrap-mode: word;
-                  input-purpose: alpha;
-                  cursor-visible: false;
-                };
+                child: $HtmlView submission_description {};
               }
 
               Adw.Carousel screenshots_carousel {
