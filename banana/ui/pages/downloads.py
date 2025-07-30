@@ -137,8 +137,10 @@ class DownloadsPage(Adw.NavigationPage):
         )
 
     def __toggle_active_placeholder(self, *_):
+        length = len(self.active_downloads.items)
+        self.stop_all_btt.set_sensitive(length > 0)
         self.active_stack.set_visible_child_name(
-            "placeholder" if len(self.active_downloads.items) == 0 else "main"
+            "placeholder" if length == 0 else "main"
         )
 
     @Gtk.Template.Callback()
