@@ -60,6 +60,7 @@ class DownloadItem(Gtk.ListBoxRow):
 
         if self.cancellable.is_cancelled():
             self.show_error("Cancelled")
+            Gio.File.new_for_path(self.path).delete_async(GLib.PRIORITY_DEFAULT)
         else:
             self.info_stack.set_visible_child_name("open")
         self.on_finish(self)
