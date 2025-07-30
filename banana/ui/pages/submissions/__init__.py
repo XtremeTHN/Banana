@@ -1,4 +1,4 @@
-from gi.repository import Adw, Gtk, Pango
+from gi.repository import Adw, Gtk
 
 from banana.modules.gamebanana.types import SubmissionInfo
 from banana.modules.gamebanana import Gamebanana
@@ -133,18 +133,23 @@ class SubmissionPage:
 
         for _type in array_credits:
             authors = _type["_aAuthors"]
+
+            group_name = self.remove_html_tags(_type["_sGroupName"])
             if len(authors) == 0:
-                row = Adw.ActionRow(title=_type["_sGroupName"], use_markup=False)
+                row = Adw.ActionRow(title=group_name)
             else:
-                row = Adw.ExpanderRow(title=_type["_sGroupName"], use_markup=False)
+                row = Adw.ExpanderRow(title=group_name)
 
             for author in _type["_aAuthors"]:
                 row.add_row(
                     Adw.ActionRow(
-                        use_markup=False,
                         css_classes=["property"],
-                        title=author.get("_sRole", "Unkown role"),
-                        subtitle=author.get("_sName", "Unkown author"),
+                        title=self.remove_html_tags(
+                            author.get("_sRole", "Unkown role")
+                        ),
+                        subtitle=self.remove_html_tags(
+                            author.get("_sName", "Unkown author")
+                        ),
                     )
                 )
             idle(self.submission_credits_box.append, row)
@@ -161,28 +166,24 @@ class SubmissionPage:
                 return
 
             for update in records:
+                title = self.remove_html_tags(update["_sName"])
                 subtitle = self.remove_html_tags(update["_sText"])
-
                 if (n := update.get("_aChangeLog")) is not None:
                     row = Adw.ExpanderRow(
-                        use_markup=False,
-                        title=update["_sName"],
+                        title=title,
                         subtitle=subtitle,
                     )
                     for change in n:
-                        subtitle = self.remove_html_tags(change["text"])
                         row.add_row(
                             Adw.ActionRow(
-                                use_markup=False,
                                 css_classes=["property"],
-                                title=change["cat"],
-                                subtitle=subtitle,
+                                title=self.remove_html_tags(change["cat"]),
+                                subtitle=self.remove_html_tags(change["text"]),
                             )
                         )
                 else:
                     row = Adw.ActionRow(
-                        use_markup=False,
-                        title=update["_sName"],
+                        title=title,
                         subtitle=subtitle,
                     )
                 idle(self.submission_updates_box.append, row)
