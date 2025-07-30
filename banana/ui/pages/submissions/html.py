@@ -17,6 +17,7 @@ class Table(Gtk.TextTagTable):
                 name="u",
                 underline=Pango.Underline.SINGLE,
             ),
+            "del": Gtk.TextTag(name="del", strikethrough=True),
             "a": Gtk.TextTag(
                 name="a",
                 weight=500,
