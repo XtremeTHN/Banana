@@ -77,6 +77,9 @@ class HtmlView(Gtk.TextView):
         self.set_wrap_mode(Gtk.WrapMode.WORD)
         self.set_css_classes([])
 
+    def set_submission_id(self, id):
+        self.logger.name = f"HtmlView({id})"
+
     def __on_motion(self, _, x, y):
         tx, ty = self.window_to_buffer_coords(Gtk.TextWindowType.WIDGET, x, y)
 
