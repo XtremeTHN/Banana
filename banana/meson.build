@@ -2,7 +2,7 @@ pkgdatadir = get_option('prefix') / get_option('datadir')
 moduledir = pkgdatadir / meson.project_name()
 
 python = import('python')
-python_i = python.find_installation('python3', modules: ['gi', 'requests'])
+python_i = python.find_installation('python3', modules: ['gi', 'requests', 'bs4', 'rich'])
 
 dependency('gtk4')
 dependency('libadwaita-1')
