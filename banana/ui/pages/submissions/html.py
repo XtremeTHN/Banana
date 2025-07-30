@@ -106,13 +106,12 @@ class HtmlView(Gtk.TextView):
         buff = self.get_buffer()
 
         if not buff:
-            print("warn: buffer not set")
+            self.logger.warning("buffer not set")
             return
 
         res, iter = self.get_iter_at_location(tx, ty)
 
         if not res:
-            print("warn: couldn't get text iter")
             return
 
         self.follow_if_link(iter)
