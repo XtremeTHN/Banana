@@ -14,7 +14,8 @@ blueprints = custom_target('blueprints',
     'home-page.blp',
     'page-bar.blp',
     'download-item.blp',
-    'downloads-page.blp'
+    'downloads-page.blp',
+    'news-page.blp'
   ),
   output: '.',
   command: [find_program('blueprint-compiler'), 'batch-compile', '@OUTPUT@', '@CURRENT_SOURCE_DIR@', '@INPUT@'],

@@ -102,7 +102,7 @@ class SubmissionPage:
                 idle(self.downloads.set_label, f"{submission['_nDownloadCount']:,}")
 
             self.populate_updates(self.submission_id)
-            self.populate_credits(submission["_aCredits"])
+            self.populate_credits(submission.get("_aCredits"))
 
             self.populate_extra_widgets(submission)
 
@@ -127,6 +127,10 @@ class SubmissionPage:
         self.logger.info("No preview media for this submission")
 
     def populate_credits(self, array_credits):
+        if array_credits is None:
+            self.logger.warning("Credits array is none")
+            return
+
         if len(array_credits) == 0:
             idle(self.submission_credits_box.append, Adw.ActionRow(title="No credits"))
             return

@@ -5,6 +5,7 @@ modules_sources = [
     'mod.py',
     'wip.py',
     'html.py',
+    'news.py',
     'download.py'
 ]
 

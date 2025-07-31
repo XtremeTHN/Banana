@@ -2,6 +2,7 @@ from banana.modules.gamebanana.types import Submission, SubmissionInfo
 from banana.modules.cache import cache_download
 from banana.modules.utils import Blueprint, idle
 
+from .pages.submissions.news import NewsPage
 from .pages.submissions.mod import ModPage
 from .pages.submissions.wip import WipPage
 
@@ -20,6 +21,8 @@ def generic_clicked(_, obj):
         page = ModPage(obj.submission_id)
     elif obj.type == "Wip":
         page = WipPage(obj.submission_id)
+    elif obj.type == "News":
+        page = NewsPage(obj.submission_id)
 
     if page is None:
         raise UnsupportedSubmission(
