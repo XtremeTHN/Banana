@@ -27,10 +27,10 @@ class ModPage(Adw.NavigationPage, SubmissionPage):
     loading_status: Adw.StatusPage = Gtk.Template.Child()
     trashed_status: Adw.StatusPage = Gtk.Template.Child()
 
-    submission_type = "Mod"
+    def __init__(self, mod_id: int, type):
+        self.submission_type = type
 
-    def __init__(self, mod_id: int):
-        Adw.NavigationPage.__init__(self, title="Mod")
+        Adw.NavigationPage.__init__(self, title=self.submission_type)
         SubmissionPage.__init__(self, mod_id)
 
         self.request_info()

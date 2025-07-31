@@ -7,7 +7,7 @@ from .pages.submissions.mod import ModPage
 from .pages.submissions.wip import WipPage
 
 from .nav import Navigation
-from gi.repository import Gtk
+from gi.repository import Gtk, Gdk
 import logging
 
 
@@ -17,8 +17,8 @@ class UnsupportedSubmission(Exception):
 
 def generic_clicked(_, obj):
     page = None
-    if obj.type == "Mod":
-        page = ModPage(obj.submission_id)
+    if obj.type == "Mod" or "Tool":
+        page = ModPage(obj.submission_id, obj.type)
     elif obj.type == "Wip":
         page = WipPage(obj.submission_id)
     elif obj.type == "News":
