@@ -70,7 +70,8 @@ class HtmlView(Gtk.TextView):
         )
         self.__html = ""
         self._table = Table()
-        self.logger = logging.getLogger(f"HtmlView({submission_id})")
+        self.logger = logging.getLogger("HtmlView")
+        self.set_submission_id(submission_id)
 
         click_controller = Gtk.GestureClick.new()
         click_controller.connect("released", self.__on_released)
@@ -87,7 +88,7 @@ class HtmlView(Gtk.TextView):
         self.set_css_classes([])
 
     def set_submission_id(self, id):
-        self.logger.name = f"HtmlView({id})"
+        self.logger.name = f"HtmlView(submission_id={id})"
 
     def __on_motion(self, _, x, y):
         tx, ty = self.window_to_buffer_coords(Gtk.TextWindowType.WIDGET, x, y)

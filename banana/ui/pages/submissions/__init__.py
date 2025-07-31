@@ -60,7 +60,9 @@ class SubmissionPage:
             loading_status: Adw.StatusPage
             trashed_status: Adw.StatusPage
         """
-        self.logger = logging.getLogger(f"{self.__class__.__name__}({submission_id})")
+        self.logger = logging.getLogger(
+            f"{self.__class__.__name__}(submission_id={submission_id})"
+        )
         self.submission_description.set_submission_id(submission_id)
         self.submission_id = submission_id
 
