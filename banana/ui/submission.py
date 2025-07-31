@@ -17,7 +17,7 @@ class UnsupportedSubmission(Exception):
 
 def generic_clicked(_, obj):
     page = None
-    if obj.type == "Mod" or "Tool":
+    if obj.type in ["Mod", "Tool"]:
         page = ModPage(obj.submission_id, obj.type)
     elif obj.type == "Wip":
         page = WipPage(obj.submission_id)
