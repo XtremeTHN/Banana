@@ -137,17 +137,17 @@ class SubmissionInfo(TypedDict):
     _nLikeCount: int
 
     _bIsTrashed: bool
-    _aTrashInfo: SubmissionInfoTrash
+    _aTrashInfo: Optional[SubmissionInfoTrash]
 
     _aCategory: SubmissionInfoCategory
 
-    _sLicense: str
-    _aLicenseChecklist: SubmissionInfoLicenseCheckList
+    _sLicense: Optional[str]
+    _aLicenseChecklist: Optional[SubmissionInfoLicenseCheckList]
 
-    _aCredits: list[SubmissionInfoCreditsType]
+    _aCredits: Optional[list[SubmissionInfoCreditsType]]
 
-    _aFiles: list[SubmissionInfoFileSource]
-    _aAlternateFileSources: list[SubmissionInfoAltFileSource]
+    _aFiles: Optional[list[SubmissionInfoFileSource]]
+    _aAlternateFileSources: Optional[list[SubmissionInfoAltFileSource]]
 
     _aSubmitter: GenericProfile
 
