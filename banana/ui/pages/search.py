@@ -48,13 +48,13 @@ class SearchPage(Adw.Bin):
 
     def __handle_query(self, submissions: PagedResponse, page: int):
         meta = submissions["_aMetadata"]
-        self.page_bar.update_widgets(meta, page)
 
         if meta["_nRecordCount"] > 0:
             self.populate(submissions["_aRecords"])
+            self.page_bar.update_widgets(meta, page)
         else:
             idle(self.stack.set_visible_child_name, "no-results")
-            return
+            self.page_bar.toggle(False)
 
     def search(self, entry: Gtk.SearchEntry):
         self.stack.set_visible_child_name("loading")
@@ -64,6 +64,7 @@ class SearchPage(Adw.Bin):
 
         if len(query) < 3:
             self.stack.set_visible_child_name("too-short")
+            self.page_bar.toggle(False)
             return
 
         Gamebanana.query_submissions(query, self.__handle_query)
