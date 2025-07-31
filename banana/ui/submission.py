@@ -70,6 +70,9 @@ class TopSubmission(Gtk.Overlay):
         self.submission_id = submission["_idRow"]
         self.type = submission["_sModelName"]
 
+        if self.type in ["Wip", "News"]:
+            self.download_btt.set_icon_name("external-link-symbolic")
+
         event = Gtk.EventControllerMotion.new()
         self.add_controller(event)
         event.connect("enter", self.__on_hover)

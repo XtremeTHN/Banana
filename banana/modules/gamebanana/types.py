@@ -2,7 +2,7 @@ from typing import TypedDict, Literal, Optional
 
 
 SortType = Literal["new", "default", "updated"]
-SubmissionType = Literal["Mod", "Tool", "Wip"]
+SubmissionType = Literal["Mod", "Tool", "Wip", "News"]
 
 
 class PagedRespondeMetadata(TypedDict):
