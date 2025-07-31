@@ -28,9 +28,9 @@ class PageBar(Gtk.Box):
             self.logger.warning("Invalid page number:", page)
             self.current_page = 1
 
-    def disable(self):
-        idle(self.next_btt.set_sensitive, False)
-        idle(self.prev_btt.set_sensitive, False)
+    def toggle(self, active):
+        idle(self.next_btt.set_sensitive, active)
+        idle(self.prev_btt.set_sensitive, active)
 
     def update_widgets(self, metadata: PagedRespondeMetadata, page: int):
         # if _bIsComplete is false, then more pages are available.
@@ -46,10 +46,12 @@ class PageBar(Gtk.Box):
 
     @Gtk.Template.Callback()
     def previous_page(self, _):
+        self.toggle(False)
         self.func(self.func_cb, self.current_page - 1)
 
     @Gtk.Template.Callback()
     def next_page(self, _):
+        self.toggle(False)
         self.func(self.func_cb, self.current_page + 1)
 
     # def connect_functions(self, previous, next):

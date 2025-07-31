@@ -66,9 +66,10 @@ class HomePage(Adw.Bin):
         idle(self.mods.remove_all)
 
         meta = submissions["_aMetadata"]
-        self.page_bar.update_widgets(meta, page)
 
         if meta["_nRecordCount"] > 0:
             for x in submissions["_aRecords"]:
                 btt = SubmissionButton(x)
                 idle(self.mods.append, btt)
+
+        self.page_bar.update_widgets(meta, page)
