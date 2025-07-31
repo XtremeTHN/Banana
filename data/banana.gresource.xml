@@ -25,5 +25,6 @@
         <file preprocess="xml-stripblanks" alias="checkmark-symbolic.svg">icons/checkmark-symbolic.svg</file>
         <file preprocess="xml-stripblanks" alias="download-symbolic.svg">icons/download-symbolic.svg</file>
         <file preprocess="xml-stripblanks" alias="eye-symbolic.svg">icons/eye-symbolic.svg</file>
+        <file preprocess="xml-stripblanks" alias="external-link-symbolic.svg">icons/external-link-symbolic.svg</file>
     </gresource>
 </gresources>

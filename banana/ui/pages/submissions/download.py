@@ -11,11 +11,15 @@ from gi.repository import Gtk, Adw, Gio, GLib
 class AltFileRow(Adw.ActionRow):
     def __init__(self, _notify, file: SubmissionInfoAltFileSource):
         super().__init__(
-            activatable=True, title=file["description"], subtitle=file["url"]
+            activatable=True,
+            title=file["description"],
+            subtitle=file["url"],
         )
         self.url = file["url"]
         self._notify = _notify
+        image = Gtk.Image(icon_name="external-link-symbolic", margin_start=10)
 
+        self.add_suffix(image)
         self.connect("activated", self.__on_clicked)
 
     def __on_clicked(self, _):
@@ -34,7 +38,7 @@ class FileRow(Adw.ActionRow):
     ):
         super().__init__(
             title=file["_sFile"],
-            subtitle=file.get("_sDescription"),
+            subtitle=f"{file.get('_sDescription')} ({GLib.format_size_for_display(file.get('_nFilesize'))})",
             activatable=True,
         )
         self.connect("activated", self.__download)
@@ -42,6 +46,10 @@ class FileRow(Adw.ActionRow):
         self.info = file
         self.submission_name = submission_name
         self.is_alt = bool(file.get("url"))
+
+        img = Gtk.Image(icon_name="download-symbolic", margin_start=10)
+
+        self.add_suffix(img)
 
     def __on_save_finish(self, dialog: Gtk.FileDialog, result):
         try:
