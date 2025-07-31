@@ -1,6 +1,11 @@
-from gi.repository import Gtk, Adw, Gio, Pango, GObject
+from gi.repository import Gtk, Adw, Gio, Pango, GObject, Gdk
 from bs4 import BeautifulSoup
 import logging
+
+RED_ADW = Gdk.RGBA()
+GREEN_ADW = Gdk.RGBA()
+RED_ADW.parse("#e62d42")
+GREEN_ADW.parse("#3a944a")
 
 
 class Table(Gtk.TextTagTable):
@@ -43,6 +48,8 @@ class Table(Gtk.TextTagTable):
             "span": Gtk.TextTag(
                 name="span",
             ),
+            "RedColor": Gtk.TextTag(foreground_rgba=RED_ADW),
+            "GreenColor": Gtk.TextTag(foreground_rgba=GREEN_ADW),
         }
 
         for _, x in self.tags.items():
@@ -177,6 +184,13 @@ class HtmlView(Gtk.TextView):
 
             tag_obj = self._table.tags.get(node.name)
             new_stack = tag_stack + ([tag_obj] if tag_obj else [])
+
+            classes = node.get("class", [])
+            for _class in classes:
+                class_tag = self._table.tags.get(_class)
+                if class_tag:
+                    new_stack.append(class_tag)
+                # new_stack.append(self.)
 
             if not tag_obj:
                 self.logger.warning(f"unsupported tag: {node.name}. html: {node}")
