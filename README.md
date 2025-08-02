@@ -9,6 +9,7 @@ A fnf gamebanana client. Tecnically is a gamebanana general client, you just nee
 - Currently, it can show the following submissions: Mod, Tool and Wip
 
 ## Dependencies
+The package names are from arch repos.
 - gtk4
 - meson
 - ninja
@@ -21,14 +22,14 @@ A fnf gamebanana client. Tecnically is a gamebanana general client, you just nee
 - python-beautifulsoup4
 
 ## Install
-### Meson
-Execute this.
+### General linux
+Install all the dependencies, and then execute this:
 ```
 meson setup build
 meson install -C build
 ```
 
-### NixOs
+### NixOS
 Add this repository to your flake inputs
 ```nix
 # flake.nix
