@@ -6,7 +6,7 @@ A fnf gamebanana client. Tecnically is a gamebanana general client, you just nee
 - It can search submissions
 - It can show the top submissions of the current game
 - It can show the html from the submission description
-- Currently, it can show the following submissions: Mod and Wip
+- Currently, it can show the following submissions: Mod, Tool and Wip
 
 ## Dependencies
 - gtk4
