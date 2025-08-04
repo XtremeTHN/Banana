@@ -49,6 +49,7 @@ template $DownloadItem : ListBoxRow {
             homogeneous: true;
 
             Label current_progress {
+              label: _("Waiting for response...");
               xalign: 0;
             }
 
@@ -58,6 +59,7 @@ template $DownloadItem : ListBoxRow {
           }
 
           ProgressBar progress_bar {
+            visible: false;
             fraction: 0.4;
           }
         };

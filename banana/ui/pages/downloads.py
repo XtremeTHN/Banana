@@ -80,13 +80,14 @@ class DownloadItem(Gtk.ListBoxRow):
 
     def __download(self):
         try:
-            r = requests.get(self.url, stream=True)
+            r = requests.get(self.url, timeout=10, stream=True)
             r.raise_for_status()
         except Exception as e:
             self.show_error(e.__class__.__name__)
             self.finish()
             raise e  # the exception will be showed in a dialog
 
+        idle(self.progress_bar.set_visible, True)
         with open(self.path, "wb") as f:
             downloaded = 0
             start = time.time()
