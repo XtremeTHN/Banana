@@ -66,9 +66,12 @@ class DownloadItem(Gtk.ListBoxRow):
 
     @Gtk.Template.Callback()
     def open_file(self, _):
-        Gio.AppInfo.launch_default_for_uri_async(
-            f"file://{urllib.parse.quote(self.path)}"
-        )
+        if GLib.file_test(self.path, GLib.FileTest.EXISTS):
+            Gio.AppInfo.launch_default_for_uri_async(
+                f"file://{urllib.parse.quote(self.path)}"
+            )
+        else:
+            self.show_error("File not found")
 
     @Gtk.Template.Callback()
     def stop_download(self, _):
