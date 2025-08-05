@@ -2,7 +2,7 @@ from banana.modules.gamebanana.types import (
     SubmissionInfoFileSource,
     SubmissionInfoAltFileSource,
 )
-from banana.modules.utils import Blueprint
+from banana.modules.utils import Blueprint, remove_html_tags
 from ..downloads import DownloadsPage, DownloadItem
 
 from gi.repository import Gtk, Adw, Gio, GLib
@@ -12,8 +12,8 @@ class AltFileRow(Adw.ActionRow):
     def __init__(self, _notify, file: SubmissionInfoAltFileSource):
         super().__init__(
             activatable=True,
-            title=file["description"],
-            subtitle=file["url"],
+            title=remove_html_tags(file["description"]),
+            subtitle=remove_html_tags(file["url"]),
         )
         self.url = file["url"]
         self._notify = _notify
@@ -37,10 +37,16 @@ class FileRow(Adw.ActionRow):
         file: SubmissionInfoFileSource,
     ):
         super().__init__(
-            title=file["_sFile"],
-            subtitle=f"{file.get('_sDescription')} ({GLib.format_size_for_display(file.get('_nFilesize'))})",
             activatable=True,
         )
+
+        self.set_title(remove_html_tags(file["_sFile"]))
+        self.set_subtitle(
+            remove_html_tags(
+                f"{file.get('_sDescription')} ({GLib.format_size_for_display(file.get('_nFilesize'))})"
+            )
+        )
+
         self.connect("activated", self.__download)
         self._notify = _notify
         self.info = file
