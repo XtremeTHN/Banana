@@ -1,14 +1,13 @@
 from gi.repository import Adw, Gtk
 
 from banana.modules.gamebanana.types import SubmissionInfo
+from banana.modules.utils import idle, remove_html_tags
 from banana.modules.gamebanana import Gamebanana
 from banana.modules.cache import cache_download
 from banana.ui.screenshot import Screenshot
-from banana.modules.utils import idle
 from .html import HtmlView
 
 import logging
-import re
 
 
 class SubmissionPage:
@@ -70,17 +69,6 @@ class SubmissionPage:
         self.loading_status.set_paintable(spinner)
         spinner.set_widget(self.loading_status)
 
-    def remove_html_tags(self, html: str) -> str:
-        # Replace <br> and <p> with newlines
-        html = re.sub(r"<br\s*/?>", "\n", html)
-        html = re.sub(r"</p>", "", html)
-        html = re.sub(r"<p>", "", html)
-
-        # Remove all other tags (or handle as needed)
-        html = re.sub(r"<.*?>", "", html)
-
-        return html.replace("&nbsp;", "").replace("&", "&amp;")
-
     def populate_extra_widgets(self, submission: SubmissionInfo):
         """override this function pls"""
         return
@@ -140,7 +128,7 @@ class SubmissionPage:
         for _type in array_credits:
             authors = _type["_aAuthors"]
 
-            group_name = self.remove_html_tags(_type["_sGroupName"])
+            group_name = remove_html_tags(_type["_sGroupName"])
             if len(authors) == 0:
                 row = Adw.ActionRow(title=group_name)
             else:
@@ -150,10 +138,8 @@ class SubmissionPage:
                 row.add_row(
                     Adw.ActionRow(
                         css_classes=["property"],
-                        title=self.remove_html_tags(
-                            author.get("_sRole", "Unkown role")
-                        ),
-                        subtitle=self.remove_html_tags(
+                        title=remove_html_tags(author.get("_sRole", "Unkown role")),
+                        subtitle=remove_html_tags(
                             author.get("_sName", "Unkown author")
                         ),
                     )
@@ -172,8 +158,8 @@ class SubmissionPage:
                 return
 
             for update in records:
-                title = self.remove_html_tags(update["_sName"])
-                subtitle = self.remove_html_tags(update["_sText"])
+                title = remove_html_tags(update["_sName"])
+                subtitle = remove_html_tags(update["_sText"])
                 if (n := update.get("_aChangeLog")) is not None:
                     row = Adw.ExpanderRow(
                         title=title,
@@ -183,8 +169,8 @@ class SubmissionPage:
                         row.add_row(
                             Adw.ActionRow(
                                 css_classes=["property"],
-                                title=self.remove_html_tags(change["cat"]),
-                                subtitle=self.remove_html_tags(change["text"]),
+                                title=remove_html_tags(change["cat"]),
+                                subtitle=remove_html_tags(change["text"]),
                             )
                         )
                 else:

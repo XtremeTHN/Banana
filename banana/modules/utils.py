@@ -1,3 +1,4 @@
+import re
 import threading as t
 from gi.repository import Gtk, GLib, GObject
 
@@ -11,6 +12,18 @@ def idle_wrap(func):
         idle(func, *args)
 
     return wrapper
+
+
+def remove_html_tags(html: str) -> str:
+    # Replace <br> and <p> with newlines
+    html = re.sub(r"<br\s*/?>", "\n", html)
+    html = re.sub(r"</p>", "", html)
+    html = re.sub(r"<p>", "", html)
+
+    # Remove all other tags (or handle as needed)
+    html = re.sub(r"<.*?>", "", html)
+
+    return html.replace("&nbsp;", "").replace("&", "&amp;").strip()
 
 
 class List(GObject.Object):
