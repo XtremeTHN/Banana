@@ -46,6 +46,6 @@ home.packages = [
 ```
 
 ## Preview
-![preview](./assets/preview1.png)
-![search](./assets/preview2.png)
-![mod preview](./assets/preview3.png)
+![preview](https://raw.githubusercontent.com/XtremeTHN/Banana/refs/heads/main/assets/preview1.png)
+![search](https://raw.githubusercontent.com/XtremeTHN/Banana/refs/heads/main/assets/preview2.png)
+![mod preview](https://raw.githubusercontent.com/XtremeTHN/Banana/refs/heads/main/assets/preview3.png)
