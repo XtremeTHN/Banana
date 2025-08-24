@@ -1,3 +1,5 @@
+(New banana re-writte)[https://github.com/XtremeTHN/Vanana]
+
 # Banana
 A fnf gamebanana client. Tecnically is a gamebanana general client, you just need to change the `GAME_ID` variable from the `banana/modules/gamebanana/__init__.py` to your favorite game id from gamebanana.
 
